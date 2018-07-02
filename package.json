@@ -1,0 +1,15 @@
+{
+  "name": "organise",
+  "version": "1.0.0",
+  "description": "A web application to help small campaign groups organise members without a deluge of overcommunication.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "campaign",
+    "organise"
+  ],
+  "author": "JAmes Wilson",
+  "license": "ISC"
+}
