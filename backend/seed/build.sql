@@ -2,6 +2,8 @@ DROP DATABASE IF EXISTS organise;
 CREATE DATABASE organise;
 \c organise;
 
+CREATE TYPE membership_type AS ENUM ('admin', 'member');
+
 CREATE TABLE activist (
     id SERIAL PRIMARY KEY,
     email TEXT,
@@ -17,16 +19,11 @@ CREATE TABLE campaign (
     logo TEXT
 );
 
-CREATE TABLE campaign_admin (
+CREATE TABLE membership (
     id SERIAL PRIMARY KEY,
     activist_id INT REFERENCES activist(id),
-    campaign_id INT REFERENCES campaign(id)
-);
-
-CREATE TABLE campaign_member (
-    id SERIAL PRIMARY KEY,
-    activist_id INT REFERENCES activist(id),
-    campaign_id INT REFERENCES campaign(id)
+    campaign_id INT REFERENCES campaign(id),
+    membership membership_type
 );
 
 CREATE TABLE task (
