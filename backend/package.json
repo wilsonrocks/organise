@@ -1,24 +1,21 @@
 {
-  "name": "organise",
+  "name": "organise-backend",
   "version": "1.0.0",
-  "description": "A web application to help small campaign groups organise members without a deluge of overcommunication.",
+  "description": "Restful API backend for the Organise software",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "campaign",
-    "organise"
-  ],
-  "author": "JAmes Wilson",
+  "author": "James Wilson",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.10",
     "pg-promise": "^8.4.5"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "faker": "^4.1.0",
     "mocha": "^5.2.0",
     "supertest": "^3.1.0"
   }
