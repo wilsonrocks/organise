@@ -119,9 +119,7 @@ function task_statuses (tasks, membership) {
           completed: faker.random.boolean(),
         }
       id++;
-
       }
-
     }
   }
   return [...task_status(tasks, membership)];
