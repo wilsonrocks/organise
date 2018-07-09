@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS organise;
-CREATE DATABASE organise;
-\c organise;
-
 CREATE TYPE membership_type AS ENUM ('admin', 'member');
 
 CREATE TABLE activist (
