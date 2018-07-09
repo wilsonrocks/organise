@@ -2,10 +2,10 @@ const faker = require('faker');
 
 const {shuffle, random} = require('lodash');
 
-const ACTIVISTS = 30;
+const ACTIVISTS = 50;
 const CAMPAIGNS = 5;
-const MAX_ADMINS_PER_CAMPAIGN = 3;
-const MAX_MEMBERS_PER_CAMPAIGN = 8;
+const MAX_ADMINS_PER_CAMPAIGN = 4;
+const MAX_MEMBERS_PER_CAMPAIGN = 10;
 const MAX_TASKS_PER_CAMPAIGN = 2;
 
 function activists (n) {
@@ -99,11 +99,38 @@ function tasks (campaigns) {
   return [...task(campaigns)];
 }
 
+function task_statuses (tasks, membership) {
+  function* task_status (tasks, membership) {
+    let id = 1;
+    for (task of tasks) {
+      const eligibleActivistIds = shuffle(
+        membership.filter(
+          membership => membership.campaign_id === task.campaign_id
+        )
+      );
+
+      for (i = 0; i <= random(0, eligibleActivistIds.length); i++ ) {
+        yield {
+          id,
+          task_id: task.id,
+          activist_id: eligibleActivistIds.pop(),
+          completed: faker.random.boolean(),
+        }
+      id++;
+
+      }
+
+    }
+  }
+  return [...task_status(tasks, membership)];
+}
+
 const output = {}
 
 output.activists = activists(ACTIVISTS);
 output.campaigns = campaigns(CAMPAIGNS);
-output.admins = memberships(output.campaigns, output.activists);
+output.memberships = memberships(output.campaigns, output.activists);
 output.tasks = tasks(output.campaigns);
+output.task_status = task_statuses(output.tasks, output.memberships);
 
 console.log(JSON.stringify(output, null, 4));
