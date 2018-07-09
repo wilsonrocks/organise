@@ -21,22 +21,22 @@ CREATE TABLE campaign (
 
 CREATE TABLE membership (
     id SERIAL PRIMARY KEY,
-    activist_id INT REFERENCES activist(id),
-    campaign_id INT REFERENCES campaign(id),
+    activist_id INT REFERENCES activist(id) ON DELETE CASCADE,
+    campaign_id INT REFERENCES campaign(id) ON DELETE CASCADE,
     membership membership_type
 );
 
 CREATE TABLE task (
     id SERIAL PRIMARY KEY,
-    campaign_id INT REFERENCES campaign(id),
+    campaign_id INT REFERENCES campaign(id) ON DELETE CASCADE,
     instructions TEXT,
     due_date DATE
 );
 
 CREATE TABLE task_status (
     id SERIAL PRIMARY KEY,
-    task_id INT REFERENCES task(id),
-    activist_id INT REFERENCES activist(id),
+    task_id INT REFERENCES task(id) ON DELETE CASCADE,
+    activist_id INT REFERENCES activist(id) ON DELETE CASCADE,
     completed BOOLEAN
 );
 
@@ -44,12 +44,12 @@ CREATE TABLE vote (
     id SERIAL PRIMARY KEY,
     question TEXT,
     closes DATE,
-    campaign_id INT REFERENCES campaign(id)
+    campaign_id INT REFERENCES campaign(id) ON DELETE CASCADE
 );
 
 CREATE TABLE vote_choice (
     id SERIAL PRIMARY KEY,
-    vote_id INT REFERENCES vote(id),
+    vote_id INT REFERENCES vote(id) ON DELETE CASCADE,
     text TEXT
 );
 

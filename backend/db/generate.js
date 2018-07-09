@@ -2,7 +2,6 @@ const faker = require('faker');
 
 const {shuffle, random} = require('lodash');
 
-
 const DEFAULT_ACTIVISTS = 50;
 const DEFAULT_CAMPAIGNS = 5;
 
@@ -115,7 +114,7 @@ function task_statuses (tasks, membership) {
         yield {
           id,
           task_id: task.id,
-          activist_id: eligibleActivistIds.pop(),
+          activist_id: eligibleActivistIds.pop().id,
           completed: faker.random.boolean(),
         }
       id++;
@@ -132,11 +131,11 @@ function generate (totalActivists, totalCampaigns) {
 
   const output = {}
 
-  output.activists = activists(ACTIVISTS);
-  output.campaigns = campaigns(CAMPAIGNS);
-  output.memberships = memberships(output.campaigns, output.activists);
-  output.tasks = tasks(output.campaigns);
-  output.task_status = task_statuses(output.tasks, output.memberships);
+  output.activist = activists(ACTIVISTS);
+  output.campaign = campaigns(CAMPAIGNS);
+  output.membership = memberships(output.campaign, output.activist);
+  output.task = tasks(output.campaign);
+  output.task_status = task_statuses(output.task, output.membership);
   return output;
 }
 
