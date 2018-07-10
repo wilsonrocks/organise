@@ -1,5 +1,6 @@
 const app = require('../app');
 const request = require('supertest')(app);
+const {errorCheck} = require('./checks');
 const expect = require('chai').expect;
 
 const seed = require('../db/seed');
@@ -27,7 +28,8 @@ describe('API', function () {
     it('returns a 400 when id is not an integer', function () {
       return request
       .get('/api/v1/activist/blah')
-      .expect(400);
+      .expect(400)
+      .then(res => errorCheck(res, 400));
     });
 
   });
