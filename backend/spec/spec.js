@@ -1,11 +1,12 @@
-const request = require('supertest');
+const app = require('../app');
+const request = require('supertest')(app);
 const expect = require('chai').expect;
 
 const seed = require('../db/seed');
 const testData = require('../db/generate')();
 const {pgp} = require('../db/db');
 
-describe('tests', function () {
+describe('API', function () {
 
   before(function () {
   });
@@ -16,10 +17,19 @@ describe('tests', function () {
 
   after(() => pgp.end());
 
-  it('is a fake test', function () {
-  });
+  describe('/api/v1/activist/:id', function (){
 
-  it('is also fake test', function () {
+    it.skip('returns 200 and required information when the ID is valid', function () {
+      // request
+      // .get('/activist')
+    });
+
+    it('returns a 400 when id is not an integer', function () {
+      return request
+      .get('/api/v1/activist/blah')
+      .expect(400);
+    });
+
   });
 
 });
