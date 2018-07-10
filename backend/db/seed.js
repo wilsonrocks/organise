@@ -1,15 +1,12 @@
+/*
+Exports a single function, seed, which takes data in the form produced by generate
+from generate.js, and adds it to the database exported by db.js, and then returns
+a promise which resolves to it.
+*/
+
 const {db, pgp} = require('./db');
 
 const {ColumnSet, insert} = pgp.helpers;
-
-const generated = require('./generate')();
-
-const {
-  campaign,
-  activist,
-  membership,
-  task,
-  task_status} = generated;
 
 const deleteAll = () => db.none(`
   DELETE FROM campaign;
@@ -21,7 +18,7 @@ const deleteAll = () => db.none(`
   DELETE FROM vote_choice;
 `);
 
-const seedActivists = () => {
+const seedActivists = (activist) => {
   const activistColumns = new ColumnSet(
     ['id', 'email', 'name', 'last_login', 'joined'],
     {table: 'activist'}
@@ -30,13 +27,13 @@ const seedActivists = () => {
   return db.none(seedActivists);
 }
 
-const seedCampaigns = () => {
+const seedCampaigns = (campaign) => {
   const campaignColumns = new ColumnSet(['id', 'name', 'description', 'logo'], {table: 'campaign'});
   const seedCampaigns = insert(campaign, campaignColumns);
   return db.none(seedCampaigns);
 }
 
-const seedMemberships = () => {
+const seedMemberships = (membership) => {
   const membershipColumns = new ColumnSet(
     ['id', 'activist_id', 'campaign_id', 'membership'],
     {table: 'membership'}
@@ -44,7 +41,7 @@ const seedMemberships = () => {
   return db.none(insert(membership, membershipColumns));
 }
 
-const seedTasks = () => {
+const seedTasks = (task) => {
   const taskColumns = new ColumnSet(
     ['id', 'campaign_id', 'instructions', 'due_date'],
     {table: 'task'}
@@ -52,7 +49,7 @@ const seedTasks = () => {
   return db.none(insert(task, taskColumns));
 }
 
-const seedTaskStatuses = () => {
+const seedTaskStatuses = (task_status) => {
   const taskStatusColumns = new ColumnSet (
     ['id', 'task_id', 'activist_id', 'completed'],
     {table: 'task_status'}
@@ -60,23 +57,28 @@ const seedTaskStatuses = () => {
   return db.none(insert(task_status, taskStatusColumns))
 }
 
-async function seed () {
-  try {
+async function seed ({
+    campaign,
+    activist,
+    membership,
+    task,
+    task_status
+  }) {
+  
+    try {
     await deleteAll();
-    await seedCampaigns();
-    await seedActivists();
-    await seedMemberships();
-    await seedTasks();
-    await seedTaskStatuses();
-    return generated;
+
+    return {
+      campaign: await seedCampaigns(campaign),
+      activist: await seedActivists(activist),
+      membership: await seedMemberships(membership),
+      task: await seedTasks(task),
+      task_status: await seedTaskStatuses(task_status),
+    }
   }
 
   catch(error) {
     throw error;
-  }
-
-  finally {
-    pgp.end();
   }
 }
 
