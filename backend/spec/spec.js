@@ -1,7 +1,17 @@
 const app = require('../app');
 const request = require('supertest')(app);
-const {errorCheck} = require('./checks');
-const expect = require('chai').expect;
+const {
+  errorCheck,
+  activistCheck,
+  campaignCheck} = require('./checks');
+
+const chai = require('chai');
+
+chai.use(require('chai-datetime'));
+
+const {expect} = chai;
+
+const {sample} = require('lodash');
 
 const seed = require('../db/seed');
 const testData = require('../db/generate')();
@@ -20,16 +30,32 @@ describe('API', function () {
 
   describe('/api/v1/activist/:id', function (){
 
-    it.skip('returns 200 and required information when the ID is valid', function () {
-      // request
-      // .get('/activist')
+    it('returns 200 and required information when the ID is valid', function () {
+      const activist = sample(testData.activist);
+      const {id} = activist;
+      return request
+      .get(`/api/v1/activist/${id}`)
+      .expect(200)
+      .then( ({body: {activist, campaigns}}) => {
+
+        activistCheck(activist);
+
+        expect(campaigns).to.be.an('array');
+        const correctNumberOfCampaigns = testData.membership.filter(
+          membership => membership.activist_id === id
+        ).length;
+        expect(campaigns.length).to.equal(correctNumberOfCampaigns);
+
+        if (campaigns.length > 0) campaignCheck(campaigns[0]);
+        
+      })
     });
 
     it('returns a 400 when id is not an integer', function () {
       return request
       .get('/api/v1/activist/blah')
       .expect(400)
-      .then(res => errorCheck(res, 400));
+      .then(({body: {error}}) => errorCheck(error, 400));
     });
 
   });
