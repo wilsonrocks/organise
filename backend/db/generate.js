@@ -12,7 +12,15 @@ const MAX_TASKS_PER_CAMPAIGN = 2;
 function activists (n) {
 
   function* activist (n) {
-      let id = 1;
+      yield ({
+        id: 1,
+        email: 'tester@test.com',
+        name: 'Testy McTestface',
+        last_login: faker.date.recent(),
+        joined: faker.date.past(2)
+      });
+
+      let id = 2;
       while (id <= n) {
         yield ({
           id,
