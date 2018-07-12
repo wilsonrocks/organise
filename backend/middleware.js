@@ -16,7 +16,7 @@ const bodyParser = require('body-parser').json();
 function middleware (app) {
   app.use(bodyParser);
   app.use(jsonChecker);
-  if (process.env.NODE_ENV === 'dev') app.use(logToScreen);
+  if (process.env.NODE_ENV === 'dev') app.use(require('morgan')('dev'));
 }
 
 module.exports = middleware;
