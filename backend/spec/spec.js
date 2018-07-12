@@ -47,7 +47,7 @@ describe('API', function () {
         expect(campaigns.length).to.equal(correctNumberOfCampaigns);
 
         if (campaigns.length > 0) campaignCheck(campaigns[0]);
-        
+
       })
     });
 
@@ -56,6 +56,18 @@ describe('API', function () {
       .get('/api/v1/activist/blah')
       .expect(400)
       .then(({body: {error}}) => errorCheck(error, 400));
+    });
+
+    it('returns a 404 when id is valid but not found', function () {
+
+      const numberOfActivists = testData.activist.length;
+
+      return request
+      .get(`/api/v1/activist/${numberOfActivists + 1}`)
+      .expect(404)
+      .then(({body: {error}}) => {
+        errorCheck(error, 404)
+      });
     });
 
   });
