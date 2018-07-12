@@ -6,7 +6,7 @@ const [ACTIVISTS, CAMPAIGNS] = [10000, 2000]
 console.log(`Making a seed database for dev mode with ${ACTIVISTS} activists and ${CAMPAIGNS} campaigns.`);
 console.log('This might take a while if there\'s a lot of data!')
 
-const generate = require('./generate');
+const generate = require('./generate')
 const seed = require('./seed');
 
 console.log('Generating Data...');

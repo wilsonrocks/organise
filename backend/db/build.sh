@@ -16,7 +16,7 @@ echo Creating DATABASE $DB_NAME
 echo "DROP DATABASE IF EXISTS $DB_NAME;" > ACTION
 echo "CREATE DATABASE $DB_NAME;" >> ACTION
 echo "\c $DB_NAME;" >> ACTION
-cat build.sql >> ACTION
+cat schema.sql >> ACTION
 
 psql -f ACTION -q && echo Done.
 rm ACTION
