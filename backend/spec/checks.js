@@ -1,4 +1,7 @@
 const expect = require('chai').expect;
+const app = require('../app');
+const request = require('supertest')(app);
+
 const {integerRegex} = require('../regex');
 
 const inPast = dateString => expect(new Date(dateString)).to.beforeTime(new Date());
@@ -26,10 +29,20 @@ function campaignCheck ({id, name, description, logo}) {
   expect(logo).to.be.a('string');
 }
 
+function credentialsCheck (method, url) {
+  return requestFromString(method)(url).expect(401);
+}
 
+function requestFromString (method) {
+  if (method === 'GET') return request.get;
+  if (method === 'PUT') return request.put;
+  if (method === 'POST') return request.post;
+  if (method === 'DELETE') return request.delete;
+}
 
 module.exports = {
   errorCheck,
   activistCheck,
   campaignCheck,
+  credentialsCheck,
 };

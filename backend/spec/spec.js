@@ -1,11 +1,14 @@
 process.env.NODE_ENV = 'test';
 
 const app = require('../app');
+
 const request = require('supertest')(app);
+
 const {
   errorCheck,
   activistCheck,
-  campaignCheck} = require('./checks');
+  campaignCheck,
+  credentialsCheck} = require('./checks');
 
 const chai = require('chai');
 
@@ -32,6 +35,9 @@ describe('API', function () {
 
   describe('/api/v1/activist/:id', function () {
     describe('GET', function () {
+
+      it('handles authentication', () => credentialsCheck('GET', '/api/v1/activist/1'));
+
       it('returns 200 and required information when the ID is valid', function () {
         const activist = sample(testData.activist);
         const {id} = activist;
@@ -79,6 +85,8 @@ describe('API', function () {
   describe('/api/v1/campaign/:id', function () {
 
     describe('GET', function () {
+      
+
       it('returns a 400 if id is not an integer', function () {
 
       });

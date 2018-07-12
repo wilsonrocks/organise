@@ -12,7 +12,6 @@ function jsonChecker (err, req, res, next) {
 const bodyParser = require('body-parser').json();
 
 function middleware (app) {
-  app.use(morgan);
   app.use(bodyParser);
   app.use(jsonChecker);
   // app.use(checkCredentialFormat);
