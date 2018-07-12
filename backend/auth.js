@@ -3,8 +3,7 @@ const {getActivistFromEmail} = require('./models');
 const {pgp} = require('./db/db');
 const {QueryResultError} = pgp.errors;
 
-const LocalStrategy = require('passport-local');
-
+const {BasicStrategy} = require('passport-http');
 
 const passport = require('passport');
 
@@ -20,23 +19,26 @@ function verify (username, password, done) {
     });
 }
 
-passport.use(new LocalStrategy (verify));
+passport.use(new BasicStrategy (verify));
 
 function checkCredentialFormat (req, res, next) {
-  const {username, password} = req.body;
-  
-  if (username && password) return next()
+  const {bodyUsername, bodyPassword} = req.body;
+  const bodyCredentials = (bodyUsername && bodyPassword);
+  const {queryUsername, queryPassword} = req.query;
+  const queryCredentials = (queryUsername && queryPassword);
+
+  if (bodyCredentials || queryCredentials) return next()
   else return res
   .status(400)
   .send({
     error: {
       status: 400,
-      message: 'you need to specify a username and password in the body of the request'
+      message: 'you need to specify a username and password in the body or querystring of the request'
     }
   });
 }
 
-const authenticate = passport.authenticate('local', {session: false});
+const authenticate = passport.authenticate('basic', {session: false});
 
 
 module.exports = {

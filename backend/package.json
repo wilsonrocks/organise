@@ -15,7 +15,7 @@
     "lodash": "^4.17.10",
     "nodemon": "^1.18.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
+    "passport-http": "^0.3.0",
     "pg-promise": "^8.4.5"
   },
   "devDependencies": {
