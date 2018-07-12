@@ -20,6 +20,11 @@ class Login extends React.Component {
 
   };
 
+  readyToSubmit = () => {
+    const {email, password, validEmail} = this.state
+    return validEmail && password.length > 0 && email.length > 0;
+  }
+
   render () {
     const {email, password, validEmail} = this.state;
 
@@ -46,11 +51,15 @@ class Login extends React.Component {
             id="password"
             type="password"
             value={password}
+            
             onChange={({target:{value}}) => this.setState({password: value})}
           />
           <br/>
 
-          <button type="button">Log In</button>
+          <button
+            type="button"
+            disabled={!this.readyToSubmit()}
+          >Log In</button>
 
         </fieldset>
 
