@@ -1,14 +1,27 @@
 import React from 'react';
+import EmailValidator from 'email-validator';
 
 class Login extends React.Component {
 
   state = {
     email: '',
     password: '',
+    validEmail: false,
+  };
+
+  editEmail = ({target:{value:email}}) => {
+    
+    const validEmail = EmailValidator.validate(email);
+
+    this.setState({
+      email,
+      validEmail
+    });
+
   };
 
   render () {
-    const {email, password} = this.state;
+    const {email, password, validEmail} = this.state;
 
     return (
       <form>
@@ -16,22 +29,24 @@ class Login extends React.Component {
 
           <legend>Login </legend>
 
-          <label for="email">email</label>
+          <label htmlFor="email">email</label>
           <input
             id="email"
             type="text"
             value={email}
-            onChange={({target:{value}}) => this.setState({email: value})}
+            onChange={this.editEmail}
           />
+
+          { validEmail || (email.length === 0) ? null : <span>Not a valid Email</span>}
+
           <br/>
 
-          <label for="password">password</label>
+          <label htmlFor="password">password</label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={({target:{value}}) => this.setState({password: value})}
-
           />
           <br/>
 
