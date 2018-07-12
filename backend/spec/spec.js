@@ -39,7 +39,6 @@ describe('API', function () {
   describe('/api/v1/activist/:id', function () {
     describe('GET', function () {
 
-
       it('returns 200 and required information when the email is in the database', function () {
         const activist = sample(testData.activist);
         return request
@@ -61,7 +60,7 @@ describe('API', function () {
         })
       });
 
-      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist/1'));
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
 
     });
   });
@@ -69,11 +68,11 @@ describe('API', function () {
   describe('/api/v1/campaign/:id', function () {
 
     describe('GET', function () {
-      
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/campaign/1'));
 
-      it('returns a 400 if id is not an integer', function () {
 
-      });
+
+
     });
 
   });

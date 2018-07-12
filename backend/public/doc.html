@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    body {
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+  </style>
+  <title>Organise API v1</title>
+</head>
+<body>
+    <h1>ORGANISE API v1</h1>
+
+    <h2>Helping people campaign with fewer grumpy emails</h2>
+
+    All endpoints use HTTP basic authentication.
+    The username is an email.
+    Password is not currently checked.
+    However, you will only be able to access data that the submitted username should be able to access.
+
+    <h3>/api/v1/activist</h3>
+
+    <h4>GET</h4>
+
+    Returns an object of the form
+
+    <code><pre>
+      {
+        "activist": {
+          "id": number,
+          "name": string,
+          "email": string,
+          "last_login": timestamp,
+          "joined": date
+        }
+        "campaigns": [
+          {
+            "id": number,
+            "name": string,
+            "description": string,
+            "logo": url
+          }, ...
+        ]
+      }
+    </pre></code>
+
+</body>
+</html>
