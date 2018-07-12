@@ -5,16 +5,17 @@ const getActivistFromId = id => db.one('SELECT * FROM activist WHERE id = $1', i
 const getActivistFromEmail = email =>
   db.one('SELECT * FROM activist WHERE email = $1', email);
 
-const getCampaignsFromActivistId = id => db.manyOrNone(
+const getCampaignsFromActivistEmail = email => db.manyOrNone(
   `SELECT campaign.name, campaign.logo, campaign.description, campaign.id
   FROM
       campaign
       JOIN membership ON campaign.id = membership.campaign_id
-      WHERE membership.activist_id = $1`, id);
+      JOIN activist ON membership.activist_id = activist.id
+      WHERE activist.email = $1`, email);
 
 
 module.exports = {
   getActivistFromId,
   getActivistFromEmail,
-  getCampaignsFromActivistId,
+  getCampaignsFromActivistEmail,
 };

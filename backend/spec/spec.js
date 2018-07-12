@@ -22,6 +22,9 @@ const seed = require('../db/seed');
 const testData = require('../db/generate')();
 const {pgp} = require('../db/db');
 
+const TEST_USERNAME = 'tester@test.com';
+const TEST_ACTIVIST_ID = 1;
+
 describe('API', function () {
 
   before(function () {
@@ -36,13 +39,12 @@ describe('API', function () {
   describe('/api/v1/activist/:id', function () {
     describe('GET', function () {
 
-      it('handles authentication', () => credentialsCheck('GET', '/api/v1/activist/1'));
 
-      it('returns 200 and required information when the ID is valid', function () {
+      it('returns 200 and required information when the email is in the database', function () {
         const activist = sample(testData.activist);
-        const {id} = activist;
         return request
-        .get(`/api/v1/activist/${id}`)
+        .get(`/api/v1/activist`)
+        .auth(TEST_USERNAME, 'password')
         .expect(200)
         .then( ({body: {activist, campaigns}}) => {
 
@@ -50,7 +52,7 @@ describe('API', function () {
 
           expect(campaigns).to.be.an('array');
           const correctNumberOfCampaigns = testData.membership.filter(
-            membership => membership.activist_id === id
+            membership => membership.activist_id === TEST_ACTIVIST_ID
           ).length;
           expect(campaigns.length).to.equal(correctNumberOfCampaigns);
 
@@ -59,27 +61,9 @@ describe('API', function () {
         })
       });
 
-      it('returns a 400 when id is not an integer', function () {
-        return request
-        .get('/api/v1/activist/blah')
-        .expect(400)
-        .then(({body: {error}}) => errorCheck(error, 400));
-      });
-
-      it('returns a 404 when id is valid but not found', function () {
-
-        const numberOfActivists = testData.activist.length;
-
-        return request
-        .get(`/api/v1/activist/${numberOfActivists + 1}`)
-        .expect(404)
-        .then(({body: {error}}) => {
-          errorCheck(error, 404)
-        });
-      });
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist/1'));
 
     });
-
   });
 
   describe('/api/v1/campaign/:id', function () {

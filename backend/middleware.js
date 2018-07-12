@@ -1,6 +1,10 @@
 const morgan = require('morgan')('dev');
 
-const {checkCredentialFormat} = require('./auth');
+
+function logErrorToScreen(err, req, res, next) {
+  if (process.env.NODE_ENV === 'dev') console.error(err);
+  return next()
+}
 
 function jsonChecker (err, req, res, next) {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
@@ -13,9 +17,14 @@ const bodyParser = require('body-parser').json();
 
 function middleware (app) {
   app.use(bodyParser);
-  app.use(jsonChecker);
-  // app.use(checkCredentialFormat);
-  if (process.env.NODE_ENV === 'dev') app.use(require('morgan')('dev'));
+  // app.use(jsonChecker);
+  if (process.env.NODE_ENV === 'dev') {
+    app.use(morgan);
+  }
 }
 
-module.exports = middleware;
+function errorHandling (app) {
+  app.use(logErrorToScreen);
+}
+
+module.exports = {middleware, errorHandling};

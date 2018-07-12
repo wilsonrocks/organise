@@ -30,17 +30,17 @@ function campaignCheck ({id, name, description, logo}) {
 }
 
 function credentialsCheck (method, url) {
-  const request = requestFromString(method);
+  const requestMethod = requestFromString(method);
   return Promise.all([
 
-  request(url)
+  requestMethod(url)
   .expect(401),
   
-  request(url)
+  requestMethod(url)
   .auth('tester@test.com')
   .expect(401),
 
-  request(url)
+  requestMethod(url)
   .auth(null, 'fakepassword')
   .expect(401)
 

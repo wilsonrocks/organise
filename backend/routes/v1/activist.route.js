@@ -4,7 +4,7 @@ const {authenticate} = require('../../app');
 
 const {getDetails} = require('../../controllers/activist.controller');
 
-router.route('/:id')
+router.route('')
   .get(getDetails);
 
 module.exports = router;
