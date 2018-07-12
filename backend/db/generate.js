@@ -111,21 +111,27 @@ function tasks (campaigns) {
 function task_statuses (tasks, membership) {
   function* task_status (tasks, membership) {
     let id = 1;
+
     for (task of tasks) {
-      const eligibleActivistIds = shuffle(
+
+      const eligibleActivists = shuffle(
         membership.filter(
           membership => membership.campaign_id === task.campaign_id
         )
       );
 
-      for (i = 0; i <= random(0, eligibleActivistIds.length); i++ ) {
-        yield {
-          id,
-          task_id: task.id,
-          activist_id: eligibleActivistIds.pop().id,
-          completed: faker.random.boolean(),
+      const numberOfEligibleActivists = eligibleActivists.length;
+      if (numberOfEligibleActivists > 0) {
+        for (i = 1; i <= random(0, numberOfEligibleActivists); i++ ) {
+          
+          yield {
+            id,
+            task_id: task.id,
+            activist_id: eligibleActivists.pop().activist_id,
+            completed: faker.random.boolean(),
+          }
+          id++;
         }
-      id++;
       }
     }
   }
