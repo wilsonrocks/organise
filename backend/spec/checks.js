@@ -30,7 +30,22 @@ function campaignCheck ({id, name, description, logo}) {
 }
 
 function credentialsCheck (method, url) {
-  return requestFromString(method)(url).expect(401);
+  const request = requestFromString(method);
+  return Promise.all([
+
+  request(url)
+  .expect(401),
+  
+  request(url)
+  .auth('tester@test.com')
+  .expect(401),
+
+  request(url)
+  .auth(null, 'fakepassword')
+  .expect(401)
+
+  
+  ]);
 }
 
 function requestFromString (method) {

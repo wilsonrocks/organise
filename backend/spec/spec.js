@@ -36,7 +36,7 @@ describe('API', function () {
   describe('/api/v1/activist/:id', function () {
     describe('GET', function () {
 
-      // it('handles authentication', () => credentialsCheck('GET', '/api/v1/activist/1'));
+      it('handles authentication', () => credentialsCheck('GET', '/api/v1/activist/1'));
 
       it('returns 200 and required information when the ID is valid', function () {
         const activist = sample(testData.activist);
