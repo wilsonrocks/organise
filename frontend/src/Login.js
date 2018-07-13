@@ -25,6 +25,12 @@ class Login extends React.Component {
     return validEmail && password.length > 0 && email.length > 0;
   }
 
+  handleKeyPress = ({key}) => {
+    const {email, password} = this.state;
+    const {onSubmit} = this.props;
+    if (key === 'Enter' && this.readyToSubmit()) onSubmit(email, password);
+  }
+
   render () {
     const {email, password, validEmail} = this.state;
     const {error, onSubmit} = this.props;
@@ -41,6 +47,7 @@ class Login extends React.Component {
             type="text"
             value={email}
             onChange={this.editEmail}
+            onKeyPress={this.handleKeyPress}
           />
 
           { validEmail || (email.length === 0) ? null : <span>Not a valid Email</span>}
@@ -52,7 +59,7 @@ class Login extends React.Component {
             id="password"
             type="password"
             value={password}
-
+            onKeyPress={this.handleKeyPress}
             onChange={({target:{value}}) => this.setState({password: value})}
           />
           <br/>
