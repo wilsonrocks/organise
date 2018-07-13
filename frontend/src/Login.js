@@ -10,7 +10,7 @@ class Login extends React.Component {
   };
 
   editEmail = ({target:{value:email}}) => {
-    
+
     const validEmail = EmailValidator.validate(email);
 
     this.setState({
@@ -27,7 +27,7 @@ class Login extends React.Component {
 
   render () {
     const {email, password, validEmail} = this.state;
-    const {onSubmit} = this.props;
+    const {error, onSubmit} = this.props;
 
     return (
       <form>
@@ -52,7 +52,7 @@ class Login extends React.Component {
             id="password"
             type="password"
             value={password}
-            
+
             onChange={({target:{value}}) => this.setState({password: value})}
           />
           <br/>
@@ -64,6 +64,9 @@ class Login extends React.Component {
               event => onSubmit(email, password)
             }
           >Log In</button>
+
+          {error ? <p>Problem with login!</p> : null}
+
 
         </fieldset>
 

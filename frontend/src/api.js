@@ -8,7 +8,7 @@ export function getActivistDetails (email, password) {
   .auth(email, password)
   .then(response => response.body)
   .catch(error => null);
-  
+
 
 }
 

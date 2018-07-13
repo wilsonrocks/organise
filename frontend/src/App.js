@@ -48,12 +48,24 @@ class App extends Component {
     });
   }
 
+
+
   render () {
-    const {loggedIn, loginError} = this.state;
+    const {loggedIn, loginError, activist} = this.state;
     return (
       <div className="App">
-        {loggedIn ? <button onClick={this.logout}>Log Out</button> : <Login onSubmit={this.login}/>}
-        {loginError ? <p>Problem with login!</p> : null}
+
+        {/* login bit */}
+        {loggedIn ? <button onClick={this.logout}>Log Out</button> : <Login onSubmit={this.login} error={loginError}/>}
+
+        {/* welcome */}
+        {loggedIn ? <p> Welcome {activist.name}!</p>:null}
+
+        {/* list of campaigns */}
+
+
+
+
       </div>
     );
   }

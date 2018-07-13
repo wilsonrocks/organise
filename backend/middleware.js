@@ -1,4 +1,5 @@
 const morgan = require('morgan')('dev');
+const cors = require('cors');
 
 
 function logErrorToScreen(err, req, res, next) {
@@ -16,6 +17,7 @@ function jsonChecker (err, req, res, next) {
 const bodyParser = require('body-parser').json();
 
 function middleware (app) {
+  app.use(cors());
   app.use(bodyParser);
   // app.use(jsonChecker);
   if (process.env.NODE_ENV === 'dev') {
