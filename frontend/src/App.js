@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import {BrowserRouter} from 'react-router-dom';
 import Login from './Login';
 import {getActivistDetails} from './api';
+import CampaignList from './CampaignList';
 
 class App extends Component {
 
@@ -51,9 +53,12 @@ class App extends Component {
 
 
   render () {
-    const {loggedIn, loginError, activist} = this.state;
+    const {loggedIn, loginError, activist, campaigns} = this.state;
     return (
-      <div className="App">
+      <BrowserRouter>
+        <div className="App">
+
+
 
         {/* login bit */}
         {loggedIn ? <button onClick={this.logout}>Log Out</button> : <Login onSubmit={this.login} error={loginError}/>}
@@ -63,10 +68,10 @@ class App extends Component {
 
         {/* list of campaigns */}
 
+        {loggedIn ? <CampaignList campaigns={campaigns}/>:null}
 
-
-
-      </div>
+        </div>
+      </BrowserRouter>
     );
   }
 }
