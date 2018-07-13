@@ -6,7 +6,7 @@ const getActivistFromEmail = email =>
   db.one('SELECT * FROM activist WHERE email = $1', email);
 
 const getCampaignsFromActivistEmail = email => db.manyOrNone(
-  `SELECT campaign.name, campaign.logo, campaign.description, campaign.id
+  `SELECT campaign.name, campaign.logo, campaign.description, campaign.id, membership.membership
   FROM
       campaign
       JOIN membership ON campaign.id = membership.campaign_id

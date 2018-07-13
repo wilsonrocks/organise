@@ -22,11 +22,13 @@ function activistCheck ({id, email, name, last_login, joined}) {
   inPast(joined);
 }
 
-function campaignCheck ({id, name, description, logo}) {
+function campaignCheck ({id, name, description, logo, membership}) {
   expect(id).to.match(integerRegex);
   expect(name).to.be.a('string');
   expect(description).to.be.a('string');
   expect(logo).to.be.a('string');
+  expect(membership).to.be.a('string');
+
 }
 
 function credentialsCheck (method, url) {
