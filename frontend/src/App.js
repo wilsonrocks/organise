@@ -27,6 +27,8 @@ class App extends Component {
       }
       else {
         const {activist, campaigns} = response;
+        localStorage.email = email;
+        localStorage.password = password;
 
         this.setState({
           loggedIn: true,
@@ -36,11 +38,16 @@ class App extends Component {
           activist,
           campaigns,
         });
+
       }
     });
   }
 
   logout = () => {
+
+    localStorage.email = '';
+    localStorage.password = '';
+
     this.setState({
       loggedIn: false,
       activist: {},
@@ -50,15 +57,16 @@ class App extends Component {
     });
   }
 
-
+  componentDidMount () {
+    const {email, password} = localStorage;
+    if (email || password) this.login(email, password);
+  }
 
   render () {
     const {loggedIn, loginError, activist, campaigns} = this.state;
     return (
       <BrowserRouter>
         <div className="App">
-
-
 
         {/* login bit */}
         {loggedIn ? <button onClick={this.logout}>Log Out</button> : <Login onSubmit={this.login} error={loginError}/>}
