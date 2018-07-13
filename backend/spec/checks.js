@@ -28,7 +28,6 @@ function campaignCheck ({id, name, description, logo, membership}) {
   expect(description).to.be.a('string');
   expect(logo).to.be.a('string');
   expect(membership).to.be.a('string');
-
 }
 
 function credentialsCheck (method, url) {

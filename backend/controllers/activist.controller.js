@@ -1,12 +1,7 @@
-const {db, pgp} = require('../db/db');
-const {emailRegex} = require('../regex');
-
 const {
   getActivistFromEmail,
   getCampaignsFromActivistEmail,
 } = require('../models');
-
-const {QueryResultError} = pgp.errors;
 
 function getDetails (req, res, next) {
 

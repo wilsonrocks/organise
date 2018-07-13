@@ -23,6 +23,7 @@ const testData = require('../db/generate')();
 const {pgp} = require('../db/db');
 
 const TEST_USERNAME = 'tester@test.com';
+const TEST_PASSWORD = 'password';
 const TEST_ACTIVIST_ID = 1;
 
 describe('API', function () {
@@ -38,12 +39,14 @@ describe('API', function () {
 
   describe('/api/v1/activist/:id', function () {
     describe('GET', function () {
+      
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
 
       it('returns 200 and required information when the email is in the database', function () {
         const activist = sample(testData.activist);
         return request
         .get(`/api/v1/activist`)
-        .auth(TEST_USERNAME, 'password')
+        .auth(TEST_USERNAME, TEST_PASSWORD)
         .expect(200)
         .then( ({body: {activist, campaigns}}) => {
 
@@ -60,7 +63,6 @@ describe('API', function () {
         })
       });
 
-      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
 
     });
   });
@@ -68,11 +70,15 @@ describe('API', function () {
   describe('/api/v1/campaign/:id', function () {
 
     describe('GET', function () {
-      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/campaign/1'));
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
 
-
-
-
+      it('returns a 400 if id is not an integer', function () {
+        return request
+        .get('/api/v1/campaign/feck')
+        .auth(TEST_USERNAME, TEST_PASSWORD)
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
     });
 
   });
