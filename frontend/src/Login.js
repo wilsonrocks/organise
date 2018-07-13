@@ -27,6 +27,7 @@ class Login extends React.Component {
 
   render () {
     const {email, password, validEmail} = this.state;
+    const {onSubmit} = this.props;
 
     return (
       <form>
@@ -59,6 +60,9 @@ class Login extends React.Component {
           <button
             type="button"
             disabled={!this.readyToSubmit()}
+            onClick={
+              event => onSubmit(email, password)
+            }
           >Log In</button>
 
         </fieldset>
