@@ -6,6 +6,13 @@ const {integerRegex} = require('../regex');
 
 const inPast = dateString => expect(new Date(dateString)).to.beforeTime(new Date());
 
+function requestFromString (method) {
+  if (method === 'GET') return request.get;
+  if (method === 'PUT') return request.put;
+  if (method === 'POST') return request.post;
+  if (method === 'DELETE') return request.delete;
+}
+
 function errorCheck (error, code) {
   expect(error).to.be.an('object');
   expect(error).to.have.keys('status', 'message');
@@ -36,7 +43,7 @@ function credentialsCheck (method, url) {
 
   requestMethod(url)
   .expect(401),
-  
+
   requestMethod(url)
   .auth('tester@test.com')
   .expect(401),

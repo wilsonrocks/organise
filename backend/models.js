@@ -13,9 +13,17 @@ const getCampaignsFromActivistEmail = email => db.manyOrNone(
       JOIN activist ON membership.activist_id = activist.id
       WHERE activist.email = $1`, email);
 
+const authorisedToViewCampaign = (email, campaignId) => db.one(
+  `
+  SELECT COUNT(membership.campaign_id) = 1 AS authorised
+  FROM membership JOIN activist ON activist.id = membership.activist_id
+  WHERE activist.email = $1 and campaign_id = $2;
+  `, [email, campaignId])
+.then(({authorised}) => authorised);
 
 module.exports = {
   getActivistFromId,
   getActivistFromEmail,
   getCampaignsFromActivistEmail,
+  authorisedToViewCampaign,
 };

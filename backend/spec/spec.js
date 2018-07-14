@@ -47,7 +47,7 @@ describe('API', function () {
 
   describe('/api/v1/activist/:id', function () {
     describe('GET', function () {
-      
+
       it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
 
       it('returns 200 and required information when the email is in the database', function () {
@@ -70,15 +70,12 @@ describe('API', function () {
 
         })
       });
-
-
     });
   });
 
   describe('/api/v1/campaign/:id', function () {
 
     describe('GET', function () {
-      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
 
       it('returns a 400 if id is not an integer', function () {
         return request
@@ -87,8 +84,30 @@ describe('API', function () {
         .expect(400)
         .then(({body:{error}}) => errorCheck(error, 400));
       });
-    });
 
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
+
+      it('returns a 401 if valid credentials are present, but the user is not authorised to view the campaign', function () {
+
+        const unauthorisedCampaignId = testData.membership
+          .filter(
+            membership => membership.activist_id !== TEST_ACTIVIST_ID
+          )
+          .map(membership => membership.campaign_id)[0];
+
+        return request
+        .get(`/api/v1/campaign/${unauthorisedCampaignId}`)
+        .auth(TEST_USERNAME, TEST_PASSWORD)
+        .expect(401)
+        .then(({body:{error}}) => errorCheck(error, 401));
+
+      });
+
+      it('returns 200 and the correct data if the request is okay', function () {
+
+
+      });
+    });
   });
 
 });
