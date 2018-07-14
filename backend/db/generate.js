@@ -108,8 +108,8 @@ function tasks (campaigns) {
   return [...task(campaigns)];
 }
 
-function task_statuses (tasks, membership) {
-  function* task_status (tasks, membership) {
+function task_completions (tasks, membership) {
+  function* task_completion (tasks, membership) {
     let id = 1;
 
     for (task of tasks) {
@@ -121,6 +121,7 @@ function task_statuses (tasks, membership) {
       );
 
       const numberOfEligibleActivists = eligibleActivists.length;
+      
       if (numberOfEligibleActivists > 0) {
         for (i = 1; i <= random(0, numberOfEligibleActivists); i++ ) {
           
@@ -128,14 +129,13 @@ function task_statuses (tasks, membership) {
             id,
             task_id: task.id,
             activist_id: eligibleActivists.pop().activist_id,
-            completed: faker.random.boolean(),
           }
           id++;
         }
       }
     }
   }
-  return [...task_status(tasks, membership)];
+  return [...task_completion(tasks, membership)];
 }
 
 function generate (totalActivists, totalCampaigns) {
@@ -149,7 +149,7 @@ function generate (totalActivists, totalCampaigns) {
   output.campaign = campaigns(CAMPAIGNS);
   output.membership = memberships(output.campaign, output.activist);
   output.task = tasks(output.campaign);
-  output.task_status = task_statuses(output.task, output.membership);
+  output.task_completion = task_completions(output.task, output.membership);
   return output;
 }
 

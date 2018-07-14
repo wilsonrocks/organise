@@ -29,11 +29,11 @@ CREATE TABLE task (
     due_date DATE
 );
 
-CREATE TABLE task_status (
+CREATE TABLE task_completion (
     id SERIAL PRIMARY KEY,
     task_id INT REFERENCES task(id) ON DELETE CASCADE,
     activist_id INT REFERENCES activist(id) ON DELETE CASCADE,
-    completed BOOLEAN
+    UNIQUE (task_id, activist_id)
 );
 
 CREATE TABLE vote (

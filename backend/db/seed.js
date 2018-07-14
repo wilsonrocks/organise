@@ -13,7 +13,7 @@ const deleteAll = () => db.none(`
   DELETE FROM activist;
   DELETE FROM membership;
   DELETE FROM task;
-  DELETE FROM task_status;
+  DELETE FROM task_completion;
   DELETE FROM vote;
   DELETE FROM vote_choice;
 `);
@@ -49,12 +49,12 @@ const seedTasks = (task) => {
   return db.none(insert(task, taskColumns));
 }
 
-const seedTaskStatuses = (task_status) => {
-  const taskStatusColumns = new ColumnSet (
-    ['id', 'task_id', 'activist_id', 'completed'],
-    {table: 'task_status'}
+const seedTaskCompletions = (task_completion) => {
+  const taskCompletionColumns = new ColumnSet (
+    ['id', 'task_id', 'activist_id'],
+    {table: 'task_completion'}
   );
-  return db.none(insert(task_status, taskStatusColumns))
+  return db.none(insert(task_completion, taskCompletionColumns))
 }
 
 async function seed ({
@@ -62,7 +62,7 @@ async function seed ({
     activist,
     membership,
     task,
-    task_status
+    task_completion
   }) {
   
     try {
@@ -73,7 +73,7 @@ async function seed ({
       activist: await seedActivists(activist),
       membership: await seedMemberships(membership),
       task: await seedTasks(task),
-      task_status: await seedTaskStatuses(task_status),
+      task_completion: await seedTaskCompletions(task_completion),
     }
   }
 
