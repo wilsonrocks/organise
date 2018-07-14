@@ -37,6 +37,14 @@ describe('API', function () {
 
   after(() => pgp.end());
 
+  describe('non existent routes', function () {
+    it('gives a 404', function () {
+      return request
+      .get('/api/v1/blah')
+      .expect(404);
+    });
+  });
+
   describe('/api/v1/activist/:id', function () {
     describe('GET', function () {
       
