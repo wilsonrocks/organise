@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'dev';
 const {pgp} = require('./db');
 
-const [ACTIVISTS, CAMPAIGNS] = [10000, 2000]
+const [ACTIVISTS, CAMPAIGNS] = [8000, 2000]
 
 console.log(`Making a seed database for dev mode with ${ACTIVISTS} activists and ${CAMPAIGNS} campaigns.`);
 console.log('This might take a while if there\'s a lot of data!')

@@ -7,7 +7,7 @@ const DEFAULT_CAMPAIGNS = 5;
 
 const MAX_ADMINS_PER_CAMPAIGN = 4;
 const MAX_MEMBERS_PER_CAMPAIGN = 10;
-const MAX_TASKS_PER_CAMPAIGN = 2;
+const MAX_TASKS_PER_CAMPAIGN = 5;
 
 function activists (n) {
 
@@ -39,7 +39,14 @@ function activists (n) {
 function campaigns (n) {
 
   function* campaign (n) {
-    let id = 1;
+    yield ({
+      id: 1,
+      name: 'Shut down the tories',
+      description: 'We won\'t have a fair society till they are dealt with. Guillotine!',
+      logo: 'https://www.google.co.uk/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiModuihKLcAhWDPhQKHRuwCjcQjRx6BAgBEAU&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Fwindows-8-icons-by-icons8%2FHands-Clenched-Fist-icon.html&psig=AOvVaw0LSZarxCtmEG9qJ2DuRVvs&ust=1531775960869596'
+    });
+
+    let id = 2;
     while (id <= n) {
       yield ({
         id,
@@ -55,9 +62,17 @@ function campaigns (n) {
 }
 
 function memberships (campaigns, activists) {
-  let id = 1;
+  
+
+  let id = 2;
 
   function* membership (campaigns, activists) {
+    yield {
+      id: 1,
+      campaign_id: 1,
+      activist_id: 1,
+      membership: 'member',
+    };
     for (campaign of campaigns) {
       const shuffledActivists = shuffle(activists);
 
@@ -93,7 +108,7 @@ function tasks (campaigns) {
 
   function* task (campaigns) {
     for (campaign of campaigns) {
-      for (let i=0; i < random(0, MAX_TASKS_PER_CAMPAIGN);i++) {
+      for (let i=0; i < random(1, MAX_TASKS_PER_CAMPAIGN);i++) {
         yield {
           id,
           campaign_id: campaign.id,
