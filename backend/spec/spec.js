@@ -25,6 +25,7 @@ const {pgp} = require('../db/db');
 const TEST_USERNAME = 'tester@test.com';
 const TEST_PASSWORD = 'password';
 const TEST_ACTIVIST_ID = 1;
+const TEST_CAMPAIGN_ID = 1;
 
 describe('API', function () {
 
@@ -89,21 +90,27 @@ describe('API', function () {
 
       it('returns a 401 if valid credentials are present, but the user is not authorised to view the campaign', function () {
 
-        const unauthorisedCampaignId = testData.membership
-          .filter(
-            membership => membership.activist_id !== TEST_ACTIVIST_ID
-          )
-          .map(membership => membership.campaign_id)[0];
+        const usersCampaignIds = testData.membership.filter(
+          membership => membership.activist_id === TEST_ACTIVIST_ID)
+        .map(membership => membership.campaign_id);
+
+        const unauthorisedCampaignId = testData.campaign.filter(
+          campaign => !usersCampaignIds.includes(campaign.id)
+        )[0].id;
 
         return request
         .get(`/api/v1/campaign/${unauthorisedCampaignId}`)
         .auth(TEST_USERNAME, TEST_PASSWORD)
         .expect(401)
         .then(({body:{error}}) => errorCheck(error, 401));
-
       });
 
       it('returns 200 and the correct data if the request is okay', function () {
+        
+        return request
+        .get(`'/api/v1/campaign/${TEST_CAMPAIGN_ID}`)
+        .auth(TEST_USERNAME, TEST_PASSWORD)
+        .expect(200);
 
 
       });
