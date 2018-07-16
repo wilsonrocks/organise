@@ -8,6 +8,7 @@ const {
   errorCheck,
   activistCheck,
   campaignCheck,
+  memberTaskCheck,
   credentialsCheck} = require('./checks');
 
 const chai = require('chai');
@@ -22,8 +23,12 @@ const seed = require('../db/seed');
 const testData = require('../db/testData');
 const {pgp} = require('../db/db');
 
-const TEST_USERNAME = 'tester@test.com';
-const TEST_PASSWORD = 'password';
+
+
+const {activist:[{email:testUsername}]}= testData;
+const testPassword = 'password;'
+const credentials = [testUsername, testPassword];
+
 const TEST_ACTIVIST_ID = 1;
 const TEST_CAMPAIGN_ID = 1;
 
@@ -55,7 +60,7 @@ describe('API', function () {
         const activist = sample(testData.activist);
         return request
         .get(`/api/v1/activist`)
-        .auth(TEST_USERNAME, TEST_PASSWORD)
+        .auth(...credentials)
         .expect(200)
         .then( ({body: {activist, campaigns}}) => {
 
@@ -81,7 +86,7 @@ describe('API', function () {
       it('returns a 400 if id is not an integer', function () {
         return request
         .get('/api/v1/campaign/feck')
-        .auth(TEST_USERNAME, TEST_PASSWORD)
+        .auth(testUsername, testPassword)
         .expect(400)
         .then(({body:{error}}) => errorCheck(error, 400));
       });
@@ -100,7 +105,7 @@ describe('API', function () {
 
         return request
         .get(`/api/v1/campaign/${unauthorisedCampaignId}`)
-        .auth(TEST_USERNAME, TEST_PASSWORD)
+        .auth(testUsername, testPassword)
         .expect(401)
         .then(({body:{error}}) => errorCheck(error, 401));
       });
@@ -108,8 +113,13 @@ describe('API', function () {
       it('returns 200 and the correct data if the request is okay', function () {
         return request
         .get(`/api/v1/campaign/${TEST_CAMPAIGN_ID}`)
-        .auth(TEST_USERNAME, TEST_PASSWORD)
-        .expect(200);
+        .auth(testUsername, testPassword)
+        .expect(200)
+        .then(({body: {campaign, tasks}}) => {
+          expect(campaign).to.be.an('object');
+          expect(tasks).to.be.an('array');
+          if (tasks.length > 0) memberTaskCheck(tasks[0]);
+        });
       });
     });
   });

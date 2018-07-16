@@ -13,6 +13,10 @@ const getCampaignsFromActivistEmail = email => db.manyOrNone(
       JOIN activist ON membership.activist_id = activist.id
       WHERE activist.email = $1`, email);
 
+const getCampaignDetailsFromId = id => db.one(
+  `SELECT * FROM campaign WHERE id = $1`, id
+);
+
 const authorisedToViewCampaign = (email, campaignId) => db.one(
   `
   SELECT COUNT(membership.campaign_id) = 1 AS authorised
@@ -21,9 +25,19 @@ const authorisedToViewCampaign = (email, campaignId) => db.one(
   `, [email, campaignId])
 .then(({authorised}) => authorised);
 
+const getMemberViewOfTasks = (email, campaignId) => db.any(
+  `
+  SELECT * FROM task WHERE campaign_id = $2 AND id NOT IN
+  (SELECT task_id FROM task_completion JOIN activist
+    ON activist.id = task_completion.activist_id
+    WHERE activist.email = $1);
+  `, [email, campaignId]);
+
 module.exports = {
   getActivistFromId,
   getActivistFromEmail,
   getCampaignsFromActivistEmail,
   authorisedToViewCampaign,
+  getMemberViewOfTasks,
+  getCampaignDetailsFromId,
 };

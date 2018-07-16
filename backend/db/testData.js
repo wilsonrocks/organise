@@ -162,24 +162,18 @@ const task_completion = [
 
   {
     id: 3,
-    task_id: 2,
-    activist_id: 1,
-  },
-
-  {
-    id: 4,
     task_id: 3,
     activist_id: 5,
   },
 
   {
-    id: 5,
+    id: 4,
     task_id: 4,
     activist_id: 4,
   },
 
   {
-    id: 6,
+    id: 5,
     task_id: 4,
     activist_id: 2,
   },

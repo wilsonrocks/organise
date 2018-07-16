@@ -4,13 +4,35 @@ const request = require('supertest')(app);
 
 const {integerRegex} = require('../regex');
 
+const {activist:[{email:testEmail}]}= require('../db/testData');
+const testPassword = 'password';
+
 const inPast = dateString => expect(new Date(dateString)).to.beforeTime(new Date());
+const inFuture = dateString => expect(new Date(dateString)).to.afterTime(new Date());
 
 function requestFromString (method) {
   if (method === 'GET') return request.get;
   if (method === 'PUT') return request.put;
   if (method === 'POST') return request.post;
   if (method === 'DELETE') return request.delete;
+}
+
+
+function credentialsCheck (method, url) {
+  const requestMethod = requestFromString(method);
+  return Promise.all([
+
+  requestMethod(url)
+  .expect(401),
+
+  requestMethod(url)
+  .auth(testEmail)
+  .expect(401),
+
+  requestMethod(url)
+  .auth(null, testPassword)
+  .expect(401)
+  ]);
 }
 
 function errorCheck (error, code) {
@@ -37,30 +59,12 @@ function campaignCheck ({id, name, description, logo, membership}) {
   expect(membership).to.be.a('string');
 }
 
-function credentialsCheck (method, url) {
-  const requestMethod = requestFromString(method);
-  return Promise.all([
 
-  requestMethod(url)
-  .expect(401),
-
-  requestMethod(url)
-  .auth('tester@test.com')
-  .expect(401),
-
-  requestMethod(url)
-  .auth(null, 'fakepassword')
-  .expect(401)
-
-  
-  ]);
-}
-
-function requestFromString (method) {
-  if (method === 'GET') return request.get;
-  if (method === 'PUT') return request.put;
-  if (method === 'POST') return request.post;
-  if (method === 'DELETE') return request.delete;
+function memberTaskCheck ({id, campaign_id, instructions, due_date}) {
+  expect(id).to.match(integerRegex);
+  expect(campaign_id).to.match(integerRegex);
+  expect(instructions).to.be.a('string');
+  inFuture(due_date);
 }
 
 module.exports = {
@@ -68,4 +72,5 @@ module.exports = {
   activistCheck,
   campaignCheck,
   credentialsCheck,
+  memberTaskCheck,
 };
