@@ -144,6 +144,14 @@ describe('API', function () {
         .expect(401)
         .then(({body:{error}}) => errorCheck(error, 401));
       });
+
+      it('returns 200 if all is okay', function () {
+        return request
+        .patch('/api/v1/task/1')
+        .auth('idris@elba.org', 'password')
+        .expect(200);
+
+      });
     });
   })
 

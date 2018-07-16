@@ -37,8 +37,6 @@ const authorisedToCompleteTask = (email, taskId) => db.one(
   `, [email, taskId])
   .then(({authorised})=>authorised);
 
-
-
 const getMemberViewOfTasks = (email, campaignId) => db.any(
   `
   SELECT * FROM task WHERE campaign_id = $2 AND id NOT IN
@@ -46,6 +44,13 @@ const getMemberViewOfTasks = (email, campaignId) => db.any(
     ON activist.id = task_completion.activist_id
     WHERE activist.email = $1);
   `, [email, campaignId]);
+
+const completeTaskFromId = (email, taskId) => db.any(
+  `INSERT INTO task_completion (task_id, activist_id) VALUES (
+    $2,
+    (SELECT id FROM activist WHERE email = 'dennis.skinner@parliament.uk')
+  );
+  `, [email, taskId]);
 
 module.exports = {
   getActivistFromId,
@@ -55,4 +60,5 @@ module.exports = {
   authorisedToCompleteTask,
   getMemberViewOfTasks,
   getCampaignDetailsFromId,
+  completeTaskFromId,
 };

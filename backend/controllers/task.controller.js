@@ -1,6 +1,9 @@
 const {integerRegex} = require('../regex');
 
-const {authorisedToCompleteTask} = require('../models');
+const {
+  authorisedToCompleteTask,
+  completeTaskFromId,
+} = require('../models');
 
 function completeTask (req, res, next) {
 
@@ -23,6 +26,13 @@ function completeTask (req, res, next) {
         message: `User with email ${email} is not authorised to modify this task`
       };
       return res.status(401).send({error});
+    }
+
+    else {
+      return completeTaskFromId(email, taskId)
+      .then(completed => {
+        return res.send({completed})
+      });
     }
 
   });
