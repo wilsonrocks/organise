@@ -8,7 +8,13 @@ export function getActivistDetails (email, password) {
   .auth(email, password)
   .then(response => response.body)
   .catch(error => null);
+}
 
-
+export function authenticate (email, password) {
+  return request
+  .get(`${BASE_URL}/authenticate`)
+  .auth(email, password)
+  .then(response => true)
+  .catch(error => false);
 }
 
