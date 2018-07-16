@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import CampaignList from './CampaignList';
-import MemberTask from './MemberTask';
+
+import {Route} from 'react-router-dom';
 
 import {getActivistDetails} from './api';
+import TaskList from './TaskList';
 
 class LoggedIn extends Component {
 
@@ -20,7 +22,7 @@ class LoggedIn extends Component {
       if (response === null) {
         logout();
       }
-      
+
       else {
         const {activist, campaigns} = response;
         localStorage.email = email;
@@ -34,7 +36,6 @@ class LoggedIn extends Component {
           activist,
           campaigns,
         });
-
       }
     });
   }
@@ -47,13 +48,17 @@ class LoggedIn extends Component {
 
           <button onClick={logout}>Log Out</button>
           <p> Welcome {activist.name}!</p>
+          
+          {/* sidebar */}
           <CampaignList campaigns={campaigns}/>
 
-          <MemberTask
-            instructions='fight the power'
-            dueDate='2019-12-25'
-            doneCallback={e=>console.log('called')}
+
+          {/* main bit */}
+          <Route
+            path="/campaign/:id"
+            component={TaskList}
           />
+
 
         </div>
     );
