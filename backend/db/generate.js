@@ -43,7 +43,7 @@ function campaigns (n) {
       id: 1,
       name: 'Shut down the tories',
       description: 'We won\'t have a fair society till they are dealt with. Guillotine!',
-      logo: 'https://www.google.co.uk/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiModuihKLcAhWDPhQKHRuwCjcQjRx6BAgBEAU&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Fwindows-8-icons-by-icons8%2FHands-Clenched-Fist-icon.html&psig=AOvVaw0LSZarxCtmEG9qJ2DuRVvs&ust=1531775960869596'
+      logo: faker.image.avatar(),
     });
 
     let id = 2;

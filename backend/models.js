@@ -25,6 +25,20 @@ const authorisedToViewCampaign = (email, campaignId) => db.one(
   `, [email, campaignId])
 .then(({authorised}) => authorised);
 
+const authorisedToCompleteTask = (email, taskId) => db.one(
+  `SELECT $2 IN (
+    SELECT id FROM task WHERE campaign_id IN (
+      SELECT campaign_id FROM membership
+      JOIN activist
+      ON activist.id = membership.activist_id
+      WHERE activist.email = $1
+    )
+  ) as authorised;
+  `, [email, taskId])
+  .then(({authorised})=>authorised);
+
+
+
 const getMemberViewOfTasks = (email, campaignId) => db.any(
   `
   SELECT * FROM task WHERE campaign_id = $2 AND id NOT IN
@@ -38,6 +52,7 @@ module.exports = {
   getActivistFromEmail,
   getCampaignsFromActivistEmail,
   authorisedToViewCampaign,
+  authorisedToCompleteTask,
   getMemberViewOfTasks,
   getCampaignDetailsFromId,
 };

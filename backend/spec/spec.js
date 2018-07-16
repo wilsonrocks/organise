@@ -124,5 +124,28 @@ describe('API', function () {
     });
   });
 
+  describe('/api/v1/task/:id', function () {
+    describe('PATCH', function () {
+
+      it('returns a 400 if id is not an integer', function () {
+        return request
+        .patch('/api/v1/task/fatherted')
+        .auth(...credentials)
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('PATCH', '/api/v1/task/1'));
+
+      it('returns 401 if credentials are valid but not authorised to change this task', function () {
+        return request
+        .patch('/api/v1/task/3')
+        .auth(...credentials)
+        .expect(401)
+        .then(({body:{error}}) => errorCheck(error, 401));
+      });
+    });
+  })
+
 });
 

@@ -13,10 +13,10 @@ const inFuture = dateString => expect(new Date(dateString)).to.afterTime(new Dat
 function requestFromString (method) {
   if (method === 'GET') return request.get;
   if (method === 'PUT') return request.put;
+  if (method === 'PATCH') return request.patch;
   if (method === 'POST') return request.post;
   if (method === 'DELETE') return request.delete;
 }
-
 
 function credentialsCheck (method, url) {
   const requestMethod = requestFromString(method);
