@@ -42,7 +42,7 @@ class LoggedIn extends Component {
 
   render () {
     const {activist, campaigns} = this.state;
-    const {logout} = this.props;
+    const {logout, email, password} = this.props;
     return (
         <div>
 
@@ -52,11 +52,15 @@ class LoggedIn extends Component {
           {/* sidebar */}
           <CampaignList campaigns={campaigns}/>
 
-
           {/* main bit */}
           <Route
             path="/campaign/:id"
-            component={TaskList}
+            render={({match}) =>
+            <TaskList
+              match={match}
+              email={email}
+              password={password}
+            />}
           />
 
 
