@@ -19,6 +19,17 @@ class TaskList extends React.Component {
     .then(response=> this.setState(response));
   }
 
+  componentDidUpdate (prevProps) {
+    const {email, password} = this.props;
+    const {id: oldId} = prevProps.match.params;
+    const {id} = this.props.match.params;
+    console.log(prevProps);
+    if (id !== oldId) {
+      getTasksForCampaign(email, password, id)
+      .then(response=> this.setState(response));
+    }
+  }
+
   render () {
 
     const {tasks, campaign:{name, logo}} = this.state;

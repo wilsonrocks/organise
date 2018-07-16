@@ -16,6 +16,7 @@ class LoggedIn extends Component {
 
   componentDidMount () {
     const {email, password, logout} = this.props;
+
     getActivistDetails(email, password)
     .then(response => {
 
@@ -29,8 +30,6 @@ class LoggedIn extends Component {
         localStorage.password = password;
 
         this.setState({
-          loggedIn: true,
-          loginError: false,
           email,
           password,
           activist,
