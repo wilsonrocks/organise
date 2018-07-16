@@ -19,7 +19,7 @@ const {expect} = chai;
 const {sample} = require('lodash');
 
 const seed = require('../db/seed');
-const testData = require('../db/generate')();
+const testData = require('../db/testData');
 const {pgp} = require('../db/db');
 
 const TEST_USERNAME = 'tester@test.com';
@@ -106,13 +106,10 @@ describe('API', function () {
       });
 
       it('returns 200 and the correct data if the request is okay', function () {
-        
         return request
-        .get(`'/api/v1/campaign/${TEST_CAMPAIGN_ID}`)
+        .get(`/api/v1/campaign/${TEST_CAMPAIGN_ID}`)
         .auth(TEST_USERNAME, TEST_PASSWORD)
         .expect(200);
-
-
       });
     });
   });
