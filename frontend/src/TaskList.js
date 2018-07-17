@@ -7,7 +7,6 @@ import {
   completeTask,
 } from './api';
 
-
 class TaskList extends React.Component {
 
   state = {
@@ -33,10 +32,15 @@ class TaskList extends React.Component {
   }
 
   completeTask = (taskId) => {
-    console.log(taskId);
     const {email, password} = this.props;
     completeTask(email, password, taskId)
-    .then(console.dir);
+    .then(() => {
+      const {tasks: oldTasks} = this.state;
+      const tasks = oldTasks.filter(
+        task => task.id !== taskId
+      );
+      this.setState({tasks});
+    });
 
   }
 

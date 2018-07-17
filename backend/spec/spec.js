@@ -93,7 +93,7 @@ describe('API', function () {
 
       it('returns 401 if valid credentials are not present', () => credentialsCheck('GET', '/api/v1/activist'));
 
-      it('returns a 401 if valid credentials are present, but the user is not authorised to view the campaign', function () {
+      it('returns 401 if credentials are valid, but the user is not authorised to view the campaign', function () {
 
         const usersCampaignIds = testData.membership.filter(
           membership => membership.activist_id === TEST_ACTIVIST_ID)

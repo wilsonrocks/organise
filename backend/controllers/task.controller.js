@@ -32,10 +32,6 @@ function completeTask (req, res, next) {
       return completeTaskFromId(email, taskId)
       .then(completed => {
         return res.send({completed})
-      })
-      .catch(error => {
-        console.error(error);
-        return res.status(500).send();
       });
     }
 
