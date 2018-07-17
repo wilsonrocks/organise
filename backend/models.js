@@ -48,8 +48,9 @@ const getMemberViewOfTasks = (email, campaignId) => db.any(
 const completeTaskFromId = (email, taskId) => db.any(
   `INSERT INTO task_completion (task_id, activist_id) VALUES (
     $2,
-    (SELECT id FROM activist WHERE email = 'dennis.skinner@parliament.uk')
-  );
+    (SELECT id FROM activist WHERE email = $1)
+  )
+  RETURNING *;
   `, [email, taskId]);
 
 module.exports = {

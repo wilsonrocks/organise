@@ -68,7 +68,6 @@ async function resetAllSequences () {
     return db.one(query);
   });
   return Promise.all(resetPromises);
-
 }
 
 async function seed ({
@@ -90,7 +89,7 @@ async function seed ({
       task_completion: await seedTaskCompletions(task_completion),
     }
 
-    resetAllSequences();
+    await resetAllSequences();
 
     return output;
   }

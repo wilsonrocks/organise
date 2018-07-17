@@ -2,7 +2,10 @@ import React from 'react';
 
 import MemberTask from './MemberTask';
 
-import {getTasksForCampaign} from './api';
+import {
+  getTasksForCampaign,
+  completeTask,
+} from './api';
 
 
 class TaskList extends React.Component {
@@ -23,11 +26,18 @@ class TaskList extends React.Component {
     const {email, password} = this.props;
     const {id: oldId} = prevProps.match.params;
     const {id} = this.props.match.params;
-    console.log(prevProps);
     if (id !== oldId) {
       getTasksForCampaign(email, password, id)
       .then(response=> this.setState(response));
     }
+  }
+
+  completeTask = (taskId) => {
+    console.log(taskId);
+    const {email, password} = this.props;
+    completeTask(email, password, taskId)
+    .then(console.dir);
+
   }
 
   render () {
@@ -43,7 +53,7 @@ class TaskList extends React.Component {
           key={id}
           instructions={instructions}
           due_date={due_date}
-          doneCallback={e=>console.log('click done')}
+          doneCallback={() => this.completeTask(id)}
         />)
       }
     

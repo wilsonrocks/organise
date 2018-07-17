@@ -27,4 +27,9 @@ export function getTasksForCampaign (email, password, id) {
 
 }
 
-
+export function completeTask (email, password, id) {
+  return request
+  .patch(`${BASE_URL}/task/${id}`)
+  .auth(email, password)
+  .then(response => response.body);
+}
