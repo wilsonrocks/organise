@@ -11,14 +11,15 @@ class TaskList extends React.Component {
 
   state = {
     campaign: {},
-    tasks: []
+    tasks: [],
   }
 
   componentDidMount () {
     const {email, password} = this.props;
     const {id} = this.props.match.params;
+
     getTasksForCampaign(email, password, id)
-    .then(response=> this.setState(response));
+    .then(response => this.setState(response));
   }
 
   componentDidUpdate (prevProps) {
@@ -41,13 +42,18 @@ class TaskList extends React.Component {
       );
       this.setState({tasks});
     });
+  }
 
+  deleteTask = (taskId) => {
+    console.log(`try to delete ${taskId}`);
   }
 
   render () {
 
     const {tasks, campaign:{name, logo}} = this.state;
-    return (
+    document.title = name;
+
+      return (
     <div>
       <h2>{name}</h2>
       <img src={logo} alt=""/>
@@ -60,7 +66,7 @@ class TaskList extends React.Component {
           doneCallback={() => this.completeTask(id)}
         />)
       }
-    
+
     </div>
     );
   }
