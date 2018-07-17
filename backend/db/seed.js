@@ -57,6 +57,20 @@ const seedTaskCompletions = (task_completion) => {
   return db.none(insert(task_completion, taskCompletionColumns))
 }
 
+async function resetAllSequences () {
+  /*
+  This is necessary because the generate function specifically generates id fields
+  for the data. This doesn't automatically update the id sequence in postgres.
+  */
+  const tables = ['campaign', 'activist', 'membership', 'task', 'task_completion'];
+  const resetPromises = tables.map(table => {
+    const query = `SELECT setval('${table}_id_seq', (SELECT MAX(id) FROM ${table})+1);`;
+    return db.one(query);
+  });
+  return Promise.all(resetPromises);
+
+}
+
 async function seed ({
     campaign,
     activist,
@@ -68,13 +82,17 @@ async function seed ({
     try {
     await deleteAll();
 
-    return {
+    const output =  {
       campaign: await seedCampaigns(campaign),
       activist: await seedActivists(activist),
       membership: await seedMemberships(membership),
       task: await seedTasks(task),
       task_completion: await seedTaskCompletions(task_completion),
     }
+
+    resetAllSequences();
+
+    return output;
   }
 
   catch(error) {

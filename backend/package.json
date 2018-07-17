@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha spec/spec.js",
-    "dev": "nodemon listen.js"
+    "dev": "nodemon listen.js",
+    "seed": "node db/seedDev.js"
   },
   "author": "James Wilson",
   "license": "ISC",
