@@ -153,6 +153,21 @@ describe('API', function () {
 
       });
     });
+
+    describe('DELETE', function () {
+      it('returns a 400 if id is not an integer', function () {
+        return request
+        .delete('/api/v1/task/fatherted')
+        .auth(...credentials)
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('DELETE', '/api/v1/task/1'));
+
+
+
+    });
   })
 
 });

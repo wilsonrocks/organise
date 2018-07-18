@@ -1,6 +1,19 @@
 const morgan = require('morgan')('dev');
 const cors = require('cors');
 
+const {integerRegex} = require('./regex');
+
+function integerId (req, res, next) {
+  const {id} = req.params;
+  if (!integerRegex.test(id)) {
+    const error = {
+      status: 400,
+      message: `The id URL parameter ${id} should be an integer`,
+    };
+    return res.status(400).send({error});
+  }
+  return next();
+}
 
 function logErrorToScreen(err, req, res, next) {
   if (process.env.NODE_ENV === 'dev') console.error(err);
@@ -29,4 +42,4 @@ function errorHandling (app) {
   app.use(logErrorToScreen);
 }
 
-module.exports = {middleware, errorHandling};
+module.exports = {middleware, errorHandling, integerId};

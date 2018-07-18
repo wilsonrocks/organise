@@ -1,9 +1,14 @@
 const router = require('express').Router();
+const {integerId} = require('../../middleware');
 
 const {authenticate} = require('../../auth');
-const {completeTask} = require('../../controllers/task.controller');
+const {
+  completeTask,
+  deleteTask,
+} = require('../../controllers/task.controller');
 
 router.route('/:id')
-  .patch(authenticate, completeTask);
+  .patch(authenticate, completeTask)
+  .delete(integerId, authenticate, deleteTask);
 
 module.exports = router;

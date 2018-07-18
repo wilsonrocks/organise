@@ -38,4 +38,11 @@ function completeTask (req, res, next) {
   });
 }
 
-module.exports = {completeTask};
+function deleteTask (req, res, next) {
+  return res.send();
+}
+
+module.exports = {
+  completeTask,
+  deleteTask,
+};
