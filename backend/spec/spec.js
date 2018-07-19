@@ -158,6 +158,10 @@ describe('API', function () {
         .patch('/api/v1/task/3')
         .auth(...credentials)
         .expect(200)
+        .then(({body:{completed:{task_id, activist_id}}}) => {
+          expect(task_id).to.be.a('number');
+          expect(activist_id).to.be.a('number');
+        })
       });
     });
 

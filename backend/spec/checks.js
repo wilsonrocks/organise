@@ -59,7 +59,6 @@ function campaignCheck ({id, name, description, logo, membership}) {
   expect(membership).to.be.a('string');
 }
 
-
 function memberTaskCheck ({id, campaign_id, instructions, due_date}) {
   expect(id).to.match(integerRegex);
   expect(campaign_id).to.match(integerRegex);

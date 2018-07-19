@@ -31,8 +31,8 @@ function completeTask (req, res, next) {
 
     else {
       return completeTaskFromId(email, taskId)
-      .then(completed => {
-        return res.send({completed})
+      .then(([completed]) => {
+        return res.send({completed});
       });
     }
 
