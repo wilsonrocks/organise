@@ -8,7 +8,7 @@ const {
   errorCheck,
   activistCheck,
   campaignCheck,
-  memberTaskCheck,
+  taskCheck,
   credentialsCheck} = require('./checks');
 
 const chai = require('chai');
@@ -118,7 +118,7 @@ describe('API', function () {
         .then(({body: {campaign, tasks}}) => {
           expect(campaign).to.be.an('object');
           expect(tasks).to.be.an('array');
-          if (tasks.length > 0) memberTaskCheck(tasks[0]);
+          if (tasks.length > 0) taskCheck(tasks[0]);
         });
       });
     });
@@ -184,11 +184,14 @@ describe('API', function () {
         .then(({body:{error}}) => errorCheck(error, 401));
       });
 
-      it.skip('returns 200 and the deleted task if all is okay', function () {
+      it('returns 200 and the deleted task if all is okay', function () {
         return request
-        .delete('/api/v1/task/3')
+        .delete('/api/v1/task/4')
         .auth(...credentials)
         .expect(200)
+        .then(({body:{deleted}}) => {
+          taskCheck(deleted);
+        });
       });
     });
   })

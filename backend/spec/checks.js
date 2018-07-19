@@ -59,17 +59,18 @@ function campaignCheck ({id, name, description, logo, membership}) {
   expect(membership).to.be.a('string');
 }
 
-function memberTaskCheck ({id, campaign_id, instructions, due_date}) {
+function taskCheck ({id, campaign_id, instructions, due_date}) {
   expect(id).to.match(integerRegex);
   expect(campaign_id).to.match(integerRegex);
   expect(instructions).to.be.a('string');
   inFuture(due_date);
 }
 
+
 module.exports = {
   errorCheck,
   activistCheck,
   campaignCheck,
   credentialsCheck,
-  memberTaskCheck,
+  taskCheck,
 };

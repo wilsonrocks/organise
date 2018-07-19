@@ -37,19 +37,19 @@ const memberAccessToTask = (email, taskId) => db.one(
   `, [email, taskId])
   .then(({authorised}) => authorised);
 
-  const adminAccessToTask = (email, taskId) => db.one(
-    `SELECT $2 IN (
-        SELECT membership.campaign_id FROM membership
-        JOIN activist
-        ON activist.id = membership.activist_id
-        JOIN task
-        ON task.campaign_id = membership.campaign_id
-        WHERE
-          activist.email = $1
-          AND membership.membership = 'admin'
-    ) as authorised;
-    `, [email, taskId])
-    .then(({authorised})=>authorised);
+const adminAccessToTask = (email, taskId) => db.one(
+  `SELECT $2 IN (
+      SELECT task.id FROM membership
+      JOIN activist
+      ON activist.id = membership.activist_id
+      JOIN task
+      ON task.campaign_id = membership.campaign_id
+      WHERE
+        activist.email = $1
+        AND membership.membership = 'admin'
+  ) as authorised;
+  `, [email, taskId])
+  .then(({authorised})=>authorised);
 
 const getMemberViewOfTasks = (email, campaignId) => db.any(
   `
@@ -67,6 +67,9 @@ const completeTaskFromId = (email, taskId) => db.any(
   RETURNING *;
   `, [email, taskId]);
 
+const deleteTaskFromId = (taskId) => db.one(
+  'DELETE FROM task WHERE id = $1 RETURNING *;', taskId);
+
 module.exports = {
   getActivistFromId,
   getActivistFromEmail,
@@ -77,4 +80,5 @@ module.exports = {
   getMemberViewOfTasks,
   getCampaignDetailsFromId,
   completeTaskFromId,
+  deleteTaskFromId,
 };

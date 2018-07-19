@@ -4,6 +4,7 @@ const {
   memberAccessToTask,
   adminAccessToTask,
   completeTaskFromId,
+  deleteTaskFromId,
 } = require('../models');
 
 function completeTask (req, res, next) {
@@ -65,7 +66,8 @@ function deleteTask (req, res, next) {
     }
 
     else {
-      return res.send();
+      return deleteTaskFromId(taskId)
+      .then(deleted => res.send({deleted}));
     }
   });
 
