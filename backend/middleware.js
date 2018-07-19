@@ -16,7 +16,7 @@ function integerId (req, res, next) {
 }
 
 function logErrorToScreen(err, req, res, next) {
-  if (process.env.NODE_ENV === 'dev') console.error(err);
+  if (process.env.NODE_ENV !== 'production') console.error(err);
   return next()
 }
 
@@ -27,12 +27,20 @@ function jsonChecker (err, req, res, next) {
   else next();
 }
 
+function errorHandler (err, req, res, next) {
+  const error = {
+    status: 500,
+    message: `Something went wrong!`
+  };
+  return res.status(500).send({error});
+}
+
 const bodyParser = require('body-parser').json();
 
 function middleware (app) {
   app.use(cors());
   app.use(bodyParser);
-  // app.use(jsonChecker);
+  app.use(jsonChecker);
   if (process.env.NODE_ENV === 'dev') {
     app.use(morgan);
   }
@@ -40,6 +48,7 @@ function middleware (app) {
 
 function errorHandling (app) {
   app.use(logErrorToScreen);
+  // app.use(errorHandler);
 }
 
 module.exports = {middleware, errorHandling, integerId};

@@ -1,5 +1,15 @@
 const faker = require('faker');
 
+/*
+activist 1:
+  is member for campaign 1, admin for campaign 2, not a member of campaign 3
+
+tasks 1-3 are from campaign 1
+task 4 is from campaign 2
+ 
+activist 1 has completed task 1
+*/
+
 const activist = [
   {
     id: 1,
@@ -75,8 +85,8 @@ const membership = [
 
   {
     id: 2,
-    campaign_id: 1,
-    activist_id: 2,
+    campaign_id: 2,
+    activist_id: 1,
     membership: 'admin',
   },
 
@@ -134,18 +144,26 @@ task = [
 
   {
     id: 3,
+    campaign_id: 1,
+    instructions: 'hold ineffective public meeting',
+    due_date: faker.date.future(0)
+  },
+
+  {
+    id: 4,
     campaign_id: 2,
     instructions: 'Email your MP',
     due_date: faker.date.future(0),
   },
 
   {
-    id: 4,
+    id: 5,
     campaign_id: 3,
     instructions: 'write a blog on medium',
     due_date: faker.date.future(0),
   },
 ];
+
 const task_completion = [
 
   {

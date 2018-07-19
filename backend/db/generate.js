@@ -64,7 +64,6 @@ function campaigns (n) {
 function memberships (campaigns, activists) {
   
 
-  let id = 2;
 
   function* membership (campaigns, activists) {
     yield {
@@ -73,8 +72,20 @@ function memberships (campaigns, activists) {
       activist_id: 1,
       membership: 'member',
     };
+
+    yield {
+      id: 2,
+      campaign_id: 2,
+      activist_id: 1,
+      membership: 'admin',
+    };
+
+  let id = 3;
+
+
     for (campaign of campaigns) {
       const shuffledActivists = shuffle(activists);
+
 
       for (let i=1; i <= random(1, MAX_ADMINS_PER_CAMPAIGN); i++)
       {
@@ -104,11 +115,33 @@ function memberships (campaigns, activists) {
 }
 
 function tasks (campaigns) {
-  let id = 1;
+
+  
+
+
+
+
 
   function* task (campaigns) {
+
+    yield {
+      id: 1,
+      campaign_id: 1,
+      instructions: faker.lorem.sentences(2),
+      due_date: faker.date.future(0),
+    };
+  
+    yield {
+      id: 2,
+      campaign_id: 2,
+      instructions: faker.lorem.sentences(2),
+      due_date: faker.date.future(0),
+    };
+
+    let id = 3;
+
     for (campaign of campaigns) {
-      for (let i=0; i < random(1, MAX_TASKS_PER_CAMPAIGN);i++) {
+      for (let i=1; i < random(1, MAX_TASKS_PER_CAMPAIGN); i++) {
         yield {
           id,
           campaign_id: campaign.id,
@@ -124,6 +157,7 @@ function tasks (campaigns) {
 }
 
 function task_completions (tasks, membership) {
+
   function* task_completion (tasks, membership) {
     let id = 1;
 

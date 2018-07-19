@@ -124,7 +124,7 @@ describe('API', function () {
     });
   });
 
-  describe('/api/v1/task/:id', function () {
+  describe.only('/api/v1/task/:id', function () {
     describe('PATCH', function () {
 
       it('returns a 400 if id is not an integer', function () {
@@ -139,18 +139,25 @@ describe('API', function () {
 
       it('returns 401 if credentials are valid but not authorised to change this task', function () {
         return request
-        .patch('/api/v1/task/3')
+        .patch('/api/v1/task/5')
         .auth(...credentials)
         .expect(401)
         .then(({body:{error}}) => errorCheck(error, 401));
       });
 
-      it('returns 200 if all is okay', function () {
+      it('returns 400 if the request is valid but the task is already completed', function () {
         return request
         .patch('/api/v1/task/1')
-        .auth('idris@elba.org', 'password')
-        .expect(200);
+        .auth(...credentials)
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
 
+      it('returns 200 and the completed task if all is okay', function () {
+        return request
+        .patch('/api/v1/task/3')
+        .auth(...credentials)
+        .expect(200)
       });
     });
 
@@ -165,8 +172,20 @@ describe('API', function () {
 
       it('returns 401 if valid credentials are not present', () => credentialsCheck('DELETE', '/api/v1/task/1'));
 
+      it('returns 401 if credentials are valid but user doesn\'t have admin persmissions for this task', function () {
+        return request
+        .delete('/api/v1/task/1')
+        .auth(...credentials)
+        .expect(401)
+        .then(({body:{error}}) => errorCheck(error, 401));
+      });
 
-
+      it.skip('returns 200 and the deleted task if all is okay', function () {
+        return request
+        .delete('/api/v1/task/3')
+        .auth(...credentials)
+        .expect(200)
+      });
     });
   })
 

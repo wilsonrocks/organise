@@ -1,7 +1,8 @@
 const {integerRegex} = require('../regex');
 
 const {
-  authorisedToCompleteTask,
+  memberAccessToTask,
+  adminAccessToTask,
   completeTaskFromId,
 } = require('../models');
 
@@ -16,14 +17,14 @@ function completeTask (req, res, next) {
       message: `The id URL parameter ${taskId} should be an integer`};
     return res.status(400).send({error});
   }
-  
-  return authorisedToCompleteTask(email, taskId)
+
+  return memberAccessToTask(email, taskId)
   .then(authorised => {
 
     if (!authorised) {
       const error = {
         status: 401,
-        message: `User with email ${email} is not authorised to modify this task`
+        message: `User with email ${email} is not authorised to mark this task as complete`
       };
       return res.status(401).send({error});
     }
@@ -35,11 +36,39 @@ function completeTask (req, res, next) {
       });
     }
 
+  })
+  .catch(error => {
+    if (error.code === '23505') {
+      const error = {
+        status: 400,
+        message: `User with email ${email} has already completed this task.`
+      };
+      return res.status(400).send({error});
+    }
+    next(error);
   });
 }
 
 function deleteTask (req, res, next) {
-  return res.send();
+  const {email} = req.user;
+  const {id: taskId} = req.params;
+
+  return adminAccessToTask(email, taskId)
+  .then(authorised => {
+
+    if (!authorised) {
+      const error = {
+        status: 401,
+        message: `User with email ${email} is not authorised to mark this task as complete`
+      };
+      return res.status(401).send({error});
+    }
+
+    else {
+      return res.send();
+    }
+  });
+
 }
 
 module.exports = {
