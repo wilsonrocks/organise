@@ -24,11 +24,17 @@ function getTasks (req, res, next) {
 
     return Promise.all([
       getCampaignDetailsFromId(campaignId),
-      getMemberViewOfTasks(email, campaignId),
+      getMemberViewOfTasks(campaignId),
     ]);
     
   })
   .then(([campaign, tasks]) => {
+    tasks = tasks.map(task => ({
+      ...task,
+      number_completed: +task.number_completed,
+      number_assigned: +task.number_assigned,
+    }));
+
     return res.send({campaign, tasks});
   })
   .catch(error => {

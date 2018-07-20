@@ -11,10 +11,10 @@ const getCampaignsFromActivistEmail = email => db.manyOrNone(
       campaign
       JOIN membership ON campaign.id = membership.campaign_id
       JOIN activist ON membership.activist_id = activist.id
-      WHERE activist.email = $1`, email);
+      WHERE activist.email = $1;`, email);
 
 const getCampaignDetailsFromId = id => db.one(
-  `SELECT * FROM campaign WHERE id = $1`, id
+  `SELECT * FROM campaign WHERE id = $1;`, id
 );
 
 const authorisedToViewCampaign = (email, campaignId) => db.one(
@@ -51,13 +51,28 @@ const adminAccessToTask = (email, taskId) => db.one(
   `, [email, taskId])
   .then(({authorised})=>authorised);
 
-const getMemberViewOfTasks = (email, campaignId) => db.any(
+const getMemberViewOfTasks = (campaignId) => db.any(
   `
-  SELECT * FROM task WHERE campaign_id = $2 AND id NOT IN
-  (SELECT task_id FROM task_completion JOIN activist
-    ON activist.id = task_completion.activist_id
-    WHERE activist.email = $1);
-  `, [email, campaignId]);
+  with
+
+  total as (
+    select task.id, count(membership.id) as assigned 
+    from task join membership on task.campaign_id = membership.campaign_id
+    group by task.id
+  ),
+  
+  completed as (
+    select task.id, count(task_completion.id) as completed
+    from task join task_completion on task.id = task_completion.task_id
+    group by task.id  
+  )
+  
+  select task.id, task.campaign_id, task.instructions, task.due_date, total.assigned as number_assigned, COALESCE(completed.completed, 0) as number_completed
+  from task 
+  join total on task.id = total.id
+  left join completed on completed.id = task.id
+  where task.campaign_id = $1;
+  `, campaignId);
 
 const completeTaskFromId = (email, taskId) => db.any(
   `INSERT INTO task_completion (task_id, activist_id) VALUES (

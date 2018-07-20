@@ -67,12 +67,10 @@ describe('API', function () {
           activistCheck(activist);
 
           expect(campaigns).to.be.an('array');
-          const correctNumberOfCampaigns = testData.membership.filter(
-            membership => membership.activist_id === TEST_ACTIVIST_ID
-          ).length;
-          expect(campaigns.length).to.equal(correctNumberOfCampaigns);
+          expect(campaigns.length).to.equal(2);
 
-          if (campaigns.length > 0) campaignCheck(campaigns[0]);
+          campaignCheck(campaigns[0]);
+
 
         })
       });
@@ -124,7 +122,7 @@ describe('API', function () {
     });
   });
 
-  describe.only('/api/v1/task/:id', function () {
+  describe('/api/v1/task/:id', function () {
     describe('PATCH', function () {
 
       it('returns a 400 if id is not an integer', function () {
