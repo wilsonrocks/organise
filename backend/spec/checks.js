@@ -60,7 +60,7 @@ function campaignCheck ({id, name, description, logo, membership}) {
 }
 
 function taskCheck 
-  ({id, campaign_id, instructions, due_date, number_completed, number_assigned}) {
+  ({id, campaign_id, instructions, due_date, number_completed, number_assigned, done}) {
   expect(id).to.match(integerRegex);
   expect(campaign_id).to.match(integerRegex);
   expect(instructions).to.be.a('string');
@@ -68,6 +68,7 @@ function taskCheck
   expect (number_completed).to.be.a('number');
   expect(number_assigned).to.be.a('number');
   expect(number_assigned).to.be.at.least(number_completed);
+  expect(done).to.be.a('boolean');
 }
 
 

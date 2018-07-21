@@ -61,28 +61,43 @@ const adminAccessToTask = (email, taskId) => db.one(
   `, [email, taskId])
   .then(({authorised})=>authorised);
 
-const getMemberViewOfTasks = (campaignId) => db.any(
+const getMemberViewOfTasks = (email, campaignId) => db.any(
   `
   with
 
   total as (
-    select task.id, count(membership.id) as assigned 
+    select task.id, count(membership.id) as assigned
     from task join membership on task.campaign_id = membership.campaign_id
     group by task.id
   ),
-  
+
   completed as (
     select task.id, count(task_completion.id) as completed
     from task join task_completion on task.id = task_completion.task_id
-    group by task.id  
-  )
-  
-  select task.id, task.campaign_id, task.instructions, task.due_date, total.assigned as number_assigned, COALESCE(completed.completed, 0) as number_completed
-  from task 
+    group by task.id
+  ),
+
+  marked_done as (
+    select
+      task.id,
+      EXISTS(SELECT * from task_completion join activist ON activist.id = task_completion.activist_id
+    where
+      activist.email=$1
+      AND task_completion.task_id = task.id
+    ) as done
+  from task)
+
+  select task.id, task.campaign_id, task.instructions, task.due_date,
+    total.assigned as number_assigned,
+    COALESCE(completed.completed, 0) as number_completed,
+    marked_done.done as done
+
+  from task
   join total on task.id = total.id
   left join completed on completed.id = task.id
-  where task.campaign_id = $1;
-  `, campaignId);
+  join marked_done on task.id = marked_done.id
+  where task.campaign_id = $2;
+  `, [email, campaignId]);
 
 const completeTaskFromId = (email, taskId) => db.any(
   `INSERT INTO task_completion (task_id, activist_id) VALUES (

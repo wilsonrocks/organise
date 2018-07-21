@@ -24,7 +24,7 @@ function getTasks (req, res, next) {
 
     return Promise.all([
       getCampaignDetailsFromId(email, campaignId),
-      getMemberViewOfTasks(campaignId),
+      getMemberViewOfTasks(email, campaignId),
     ]);
     
   })
