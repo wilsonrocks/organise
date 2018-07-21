@@ -23,7 +23,7 @@ function getTasks (req, res, next) {
     if (!authorised) throw new Error('unauthorised');
 
     return Promise.all([
-      getCampaignDetailsFromId(campaignId),
+      getCampaignDetailsFromId(email, campaignId),
       getMemberViewOfTasks(campaignId),
     ]);
     
@@ -45,6 +45,7 @@ function getTasks (req, res, next) {
       };
       return res.status(401).send({error});
     }
+    next(error);
   });
 }
 

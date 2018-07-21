@@ -13,9 +13,19 @@ const getCampaignsFromActivistEmail = email => db.manyOrNone(
       JOIN activist ON membership.activist_id = activist.id
       WHERE activist.email = $1;`, email);
 
-const getCampaignDetailsFromId = id => db.one(
-  `SELECT * FROM campaign WHERE id = $1;`, id
-);
+const getCampaignDetailsFromId = (email, campaignId) => db.one(
+  `SELECT
+    campaign.name,
+    campaign.logo,
+    campaign.description,
+    campaign.id,
+    membership.membership
+  FROM
+    campaign
+    JOIN membership ON campaign.id = membership.campaign_id
+    JOIN activist ON membership.activist_id = activist.id
+  WHERE campaign.id = $2 AND activist.email = $1;
+  `, [email, campaignId]);
 
 const authorisedToViewCampaign = (email, campaignId) => db.one(
   `

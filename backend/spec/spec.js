@@ -114,7 +114,7 @@ describe('API', function () {
         .auth(testUsername, testPassword)
         .expect(200)
         .then(({body: {campaign, tasks}}) => {
-          expect(campaign).to.be.an('object');
+          campaignCheck(campaign);
           expect(tasks).to.be.an('array');
           if (tasks.length > 0) taskCheck(tasks[0]);
         });
@@ -182,7 +182,7 @@ describe('API', function () {
         .then(({body:{error}}) => errorCheck(error, 401));
       });
 
-      it('returns 200 and the deleted task if all is okay', function () {
+      it.skip('returns 200 and the deleted task if all is okay', function () {
         return request
         .delete('/api/v1/task/4')
         .auth(...credentials)
