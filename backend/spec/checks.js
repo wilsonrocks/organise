@@ -65,12 +65,19 @@ function taskCheck
   expect(campaign_id).to.match(integerRegex);
   expect(instructions).to.be.a('string');
   inFuture(due_date);
-  expect (number_completed).to.be.a('number');
+  expect(number_completed).to.be.a('number');
   expect(number_assigned).to.be.a('number');
   expect(number_assigned).to.be.at.least(number_completed);
   expect(done).to.be.a('boolean');
 }
 
+function deletedTaskCheck 
+  ({id, campaign_id, instructions, due_date}) {
+  expect(id).to.match(integerRegex);
+  expect(campaign_id).to.match(integerRegex);
+  expect(instructions).to.be.a('string');
+  inFuture(due_date);
+}
 
 module.exports = {
   errorCheck,
@@ -78,4 +85,5 @@ module.exports = {
   campaignCheck,
   credentialsCheck,
   taskCheck,
+  deletedTaskCheck,
 };
