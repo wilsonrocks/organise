@@ -49,6 +49,15 @@ class TaskList extends React.Component {
     console.log(`try to delete ${taskId}`);
   }
 
+  filteredTasks = () => {
+    const {tasks} = this.state;
+    const {membership} = this.state.campaign;
+
+    if (membership === 'admin') return tasks;
+
+    else return tasks.filter(task => !task.done);
+  }
+
   render () {
 
     const {tasks, campaign:{name, logo, membership}} = this.state;
@@ -60,7 +69,8 @@ class TaskList extends React.Component {
       <img src={logo} alt=""/>
       <h3>{membership === 'admin' ? 'Manage Tasks' : 'Outstanding Tasks'}</h3>
       {
-        tasks.map((task) => {
+        this.filteredTasks()
+        .map((task) => {
         const {id} = task;
         if (membership === 'member') return (
         
