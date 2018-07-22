@@ -37,8 +37,6 @@ class TaskList extends React.Component {
     const {email, password} = this.props;
     completeTask(email, password, taskId)
     .then((task) => {
-      console.log(task);
-
       const {tasks: oldTasks} = this.state;
       const tasks = oldTasks.filter(
         task => task.id !== taskId

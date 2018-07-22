@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import Doughnut from './Doughnut';
+
 function AdminTask
 ({instructions, due_date, number_assigned, number_completed, done,
   doneCallback, deleteCallback}) {
@@ -15,6 +17,9 @@ function AdminTask
     <button onClick={deleteCallback}>Delete</button>
     <p> {number_completed}/{number_assigned}
     </p>
+    <Doughnut
+      {...{number_assigned, number_completed}}
+    />
 
 
   </div>
