@@ -24,12 +24,18 @@ export function getTasksForCampaign (email, password, id) {
   .auth(email, password)
   .then(response => response.body)
   .catch(error => null);
-
 }
 
 export function completeTask (email, password, id) {
   return request
   .patch(`${BASE_URL}/task/${id}`)
+  .auth(email, password)
+  .then(response => response.body);
+}
+
+export function deleteTask (email, password, id) {
+  return request
+  .delete(`${BASE_URL}/task/${id}`)
   .auth(email, password)
   .then(response => response.body);
 }

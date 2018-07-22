@@ -6,6 +6,7 @@ import AdminTask from './AdminTask';
 import {
   getTasksForCampaign,
   completeTask,
+  deleteTask,
 } from './api';
 
 class TaskList extends React.Component {
@@ -63,7 +64,16 @@ class TaskList extends React.Component {
   }
 
   deleteTask = (taskId) => {
-    console.log(`try to delete ${taskId}`);
+    const {email, password} = this.props;
+    deleteTask(email, password, taskId)
+    .then(({id}) => {
+      const {tasks: oldTasks} = this.state;
+      const tasks = oldTasks.filter(
+        task => task.id !== taskId
+      );
+        
+      this.setState({tasks});
+    });
   }
 
   filteredTasks = () => {
