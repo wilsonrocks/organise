@@ -3,3 +3,9 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+div {
+  margin: 1px;
+  padding: 1px;
+  border: solid 1px;
+}

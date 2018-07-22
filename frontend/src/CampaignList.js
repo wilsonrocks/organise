@@ -22,7 +22,7 @@ function CampaignList ({campaigns}) {
       <h3>Admin</h3>
       {adminCampaigns.map(
         ({id, name}) => (
-          <li key={id}><Link to="#">{name}</Link></li>
+          <li key={id}><Link to={`/campaign/${id}`}>{name}</Link></li>
         )
       )}
 
