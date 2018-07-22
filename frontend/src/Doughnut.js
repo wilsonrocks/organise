@@ -3,10 +3,12 @@ import ChartistGraph from 'react-chartist';
 import '../node_modules/chartist/dist/chartist.css';
 
 function Doughnut({number_completed, number_assigned}) {
+
   const data = {
     series: [number_completed],
     labels: [`${number_completed}/${number_assigned}`]
   };
+
   const options = {
     donut: true,
     donutWidth: 10,

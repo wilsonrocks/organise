@@ -36,12 +36,29 @@ class TaskList extends React.Component {
   completeTask = (taskId) => {
     const {email, password} = this.props;
     completeTask(email, password, taskId)
-    .then((task) => {
+    .then(() => {
+
       const {tasks: oldTasks} = this.state;
-      const tasks = oldTasks.filter(
-        task => task.id !== taskId
-      );
-      this.setState({tasks});
+
+      if (!this.isAdmin()) {
+        const tasks = oldTasks.filter(
+          task => task.id !== taskId
+        );
+        this.setState({tasks});
+      }
+
+      else {
+        const tasks = oldTasks.map(
+          task => task.id === taskId
+          ? { ...task,
+              done: true,
+              number_completed: task.number_completed + 1
+            }
+          : task
+        );
+        this.setState({tasks});
+      }
+
     });
   }
 
@@ -51,51 +68,54 @@ class TaskList extends React.Component {
 
   filteredTasks = () => {
     const {tasks} = this.state;
-    const {membership} = this.state.campaign;
 
-    if (membership === 'admin') return tasks;
+    if (this.isAdmin()) return tasks;
 
     else return tasks.filter(task => !task.done);
   }
 
+  isAdmin = () => {
+    return this.state.campaign.membership === 'admin';
+  }
+
   render () {
 
-    const {tasks, campaign:{name, logo, membership}} = this.state;
+    const {campaign:{name, logo, membership}} = this.state;
     document.title = name;
 
-      return (
-    <div>
-      <h2>{name}</h2>
-      <img src={logo} alt=""/>
-      <h3>{membership === 'admin' ? 'Manage Tasks' : 'Outstanding Tasks'}</h3>
-      {
-        this.filteredTasks()
-        .map((task) => {
-        const {id} = task;
-        if (membership === 'member') return (
-        
-          <MemberTask
-            {...task}
-            key={id}
-            doneCallback={() => this.completeTask(id)}
-          />
-        );
+    return (
+      <div>
+        <h2>{name}</h2>
+        <img src={logo} alt=""/>
+        <h3>{membership === 'admin' ? 'Manage Tasks' : 'Outstanding Tasks'}</h3>
+        {
+          this.filteredTasks()
+          .map((task) => {
+          const {id} = task;
+          if (membership === 'member') return (
 
-        else return (
-          <AdminTask
-            {...task}
-            key={id}
+            <MemberTask
+              {...task}
+              key={id}
+              doneCallback={() => this.completeTask(id)}
+            />
+          );
 
-            doneCallback={() => this.completeTask(id
-            )}
-            deleteCallback={() => this.deleteTask(id)}
-          />
-        );
+          else return (
+            <AdminTask
+              {...task}
+              key={id}
 
-        })
-      }
+              doneCallback={() => this.completeTask(id
+              )}
+              deleteCallback={() => this.deleteTask(id)}
+            />
+          );
 
-    </div>
+          })
+        }
+
+      </div>
     );
   }
 }
