@@ -115,8 +115,10 @@ describe('API', function () {
         .get(`/api/v1/campaign/${TEST_CAMPAIGN_ID}`)
         .auth(testUsername, testPassword)
         .expect(200)
-        .then(({body: {campaign, tasks}}) => {
+        .then(({body: {campaign, tasks, members}}) => {
           campaignCheck(campaign);
+          expect(members).to.be.an('array');
+          activistCheck(members[0]);
           expect(tasks).to.be.an('array');
           if (tasks.length > 0) taskCheck(tasks[0]);
         });

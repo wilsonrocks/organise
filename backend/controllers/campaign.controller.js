@@ -3,6 +3,7 @@ const {
   authorisedToViewCampaign,
   getMemberViewOfTasks,
   getCampaignDetailsFromId,
+  getMembersOfCampaign,
 } = require('../models');
 
 function getTasks (req, res, next) {
@@ -25,17 +26,18 @@ function getTasks (req, res, next) {
     return Promise.all([
       getCampaignDetailsFromId(email, campaignId),
       getMemberViewOfTasks(email, campaignId),
+      getMembersOfCampaign(campaignId),
     ]);
     
   })
-  .then(([campaign, tasks]) => {
+  .then(([campaign, tasks, members]) => {
     tasks = tasks.map(task => ({
       ...task,
       number_completed: +task.number_completed,
       number_assigned: +task.number_assigned,
     }));
 
-    return res.send({campaign, tasks});
+    return res.send({campaign, tasks, members});
   })
   .catch(error => {
     if (error.message === 'unauthorised') {

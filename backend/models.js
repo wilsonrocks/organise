@@ -110,6 +110,12 @@ const completeTaskFromId = (email, taskId) => db.any(
 const deleteTaskFromId = (taskId) => db.one(
   'DELETE FROM task WHERE id = $1 RETURNING *;', taskId);
 
+const getMembersOfCampaign = (campaignId) => db.many(
+  `
+  select activist.id, email, name, joined, last_login
+  from activist join membership on activist.id = membership.activist_id
+  where membership.campaign_id = $1;`, campaignId);
+
 module.exports = {
   getActivistFromId,
   getActivistFromEmail,
@@ -121,4 +127,5 @@ module.exports = {
   getCampaignDetailsFromId,
   completeTaskFromId,
   deleteTaskFromId,
+  getMembersOfCampaign,
 };
