@@ -23,7 +23,7 @@ export function getTasksForCampaign (email, password, id) {
   .get(`${BASE_URL}/campaign/${id}`)
   .auth(email, password)
   .then(response => response.body)
-  .catch(error => null);
+  // .catch(error => null);
 }
 
 export function completeTask (email, password, id) {

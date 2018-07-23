@@ -19,11 +19,12 @@ class TaskList extends React.Component {
   }
 
   componentDidMount () {
-    const {email, password} = this.props;
+    const {email, password, history} = this.props;
     const {id} = this.props.match.params;
 
     getTasksForCampaign(email, password, id)
-    .then(response => this.setState(response));
+    .then(response => this.setState(response))
+    .catch(() => history.push('/'));
   }
 
   componentDidUpdate (prevProps) {
@@ -32,7 +33,9 @@ class TaskList extends React.Component {
     const {id} = this.props.match.params;
     if (id !== oldId) {
       getTasksForCampaign(email, password, id)
-      .then(response=> this.setState(response));
+      .then(response=> this.setState(response))
+    .catch(e => console.error(e));
+
     }
   }
 

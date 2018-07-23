@@ -36,7 +36,7 @@ class LoggedIn extends Component {
           campaigns,
         });
       }
-    });
+    })
   }
 
   render () {
@@ -54,12 +54,17 @@ class LoggedIn extends Component {
           {/* main bit */}
           <Route
             path="/campaign/:id"
-            render={({match}) =>
-            <TaskList
-              match={match}
-              email={email}
-              password={password}
-            />}
+            render={({match, history}) => {
+              
+              return(
+              <TaskList
+                match={match}
+                email={email}
+                password={password}
+                history={history}
+              />);
+              }
+            }
           />
 
 
