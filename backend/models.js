@@ -116,6 +116,16 @@ const getMembersOfCampaign = (campaignId) => db.many(
   from activist join membership on activist.id = membership.activist_id
   where membership.campaign_id = $1;`, campaignId);
 
+const adminForCampaign = (email, campaignId) => db.one(
+  `select exists (
+    select * from activist
+    join membership on activist.id = membership.activist_id
+    where membership.membership = 'admin'
+      and membership.campaign_id = $2
+      and activist.email = $1
+    ) as admin;`, [email, campaignId]
+);
+
 module.exports = {
   getActivistFromId,
   getActivistFromEmail,
@@ -128,4 +138,5 @@ module.exports = {
   completeTaskFromId,
   deleteTaskFromId,
   getMembersOfCampaign,
+  adminForCampaign,
 };

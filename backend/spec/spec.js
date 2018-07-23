@@ -14,6 +14,7 @@ const {
 } = require('./checks');
 
 const chai = require('chai');
+const moment = require('moment');
 
 chai.use(require('chai-datetime'));
 
@@ -24,8 +25,6 @@ const {sample} = require('lodash');
 const seed = require('../db/seed');
 const testData = require('../db/testData');
 const {pgp} = require('../db/db');
-
-
 
 const {activist:[{email:testUsername}]}= testData;
 const testPassword = 'password;'
@@ -196,6 +195,116 @@ describe('API', function () {
           deletedTaskCheck(deleted);
         });
       });
+    });
+
+    describe('POST', function () {
+
+      const futureDate = moment().add(1, 'days');
+      const pastDate = moment().subtract(1, 'days');
+
+      it('returns 401 if valid credentials are not present', () => credentialsCheck('POST', '/api/v1/task'));
+
+      it('returns 401 if credentials are valid but the user is only a member for the campaign', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 1,
+          instructions: 'punch a far right journalist',
+          due_date: futureDate,
+        })
+        .expect(401)
+        .then(({body:{error}}) => errorCheck(error, 401));
+      });
+
+      it('returns 401 if credentials are valid but the user is not a member of the campaign', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 3,
+          instructions: 'punch a far right journalist',
+          due_date: futureDate,
+        })
+        .expect(401)
+        .then(({body:{error}}) => errorCheck(error, 401));
+      });
+
+      it('returns 400 if due_date is in the past', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 2,
+          instructions: 'punch a far right journalist',
+          due_date: pastDate,
+        })
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
+      it('returns 400 if instructions are empty', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 2,
+          instructions: '',
+          due_date: futureDate,
+        })
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
+      it('returns 400 if instructions are missing', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 2,
+          due_date: futureDate,
+        })
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
+      it('returns 400 if campaign_id is missing', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          due_date: futureDate,
+          instructions: 'punch a far right journalist',
+        })
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
+      it('returns 400 if due_date is missing', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 2,
+          instructions: 'punch a far right journalist',
+        })
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
+      it('returns 400 if due_date is misformed', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 2,
+          instructions: 'punch a far right journalist',
+          due_date: '2020-33-33',
+        })
+        .expect(400)
+        .then(({body:{error}}) => errorCheck(error, 400));
+      });
+
     });
   })
 
