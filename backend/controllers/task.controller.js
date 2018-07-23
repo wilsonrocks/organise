@@ -8,6 +8,8 @@ const {
   completeTaskFromId,
   deleteTaskFromId,
   adminForCampaign,
+  createTaskRow,
+
 } = require('../models');
 
 function completeTask (req, res, next) {
@@ -100,7 +102,7 @@ function createTask (req, res, next) {
 
   if (!validatedDate._isValid) {
     const error = {status: 400, message: `due_date ${due_date} must be in a valid format that moment.js can read`};
-    res.status(400).send({error});
+    return res.status(400).send({error});
   }
 
   if (validatedDate.isBefore(moment())) {
@@ -119,14 +121,14 @@ function createTask (req, res, next) {
     return res.status(400).send({error});
   }
 
-
-
-
   adminForCampaign(email, campaign_id)
   
   .then(({admin})=> {
     if (!admin) throw new Error('notAdmin');
-    return res.send();
+    return createTaskRow(campaign_id, instructions, due_date)
+  })
+  .then(created => {
+    return res.send({created})
   })
   
   .catch(error => {

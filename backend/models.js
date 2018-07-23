@@ -126,6 +126,13 @@ const adminForCampaign = (email, campaignId) => db.one(
     ) as admin;`, [email, campaignId]
 );
 
+const createTaskRow = (campaignId, instructions, dueDate) => db.one(
+  `INSERT INTO task (campaign_id, instructions, due_date)
+  VALUES ($1, $2, $3)
+  RETURNING *;
+  `, [campaignId, instructions, dueDate]
+);
+
 module.exports = {
   getActivistFromId,
   getActivistFromEmail,
@@ -139,4 +146,5 @@ module.exports = {
   deleteTaskFromId,
   getMembersOfCampaign,
   adminForCampaign,
+  createTaskRow,
 };

@@ -59,7 +59,7 @@ function campaignCheck ({id, name, description, logo, membership}) {
   expect(membership).to.be.a('string');
 }
 
-function taskCheck 
+function taskCheckAdmin
   ({id, campaign_id, instructions, due_date, number_completed, number_assigned, done}) {
   expect(id).to.match(integerRegex);
   expect(campaign_id).to.match(integerRegex);
@@ -71,7 +71,7 @@ function taskCheck
   expect(done).to.be.a('boolean');
 }
 
-function deletedTaskCheck 
+function taskCheck
   ({id, campaign_id, instructions, due_date}) {
   expect(id).to.match(integerRegex);
   expect(campaign_id).to.match(integerRegex);
@@ -85,5 +85,5 @@ module.exports = {
   campaignCheck,
   credentialsCheck,
   taskCheck,
-  deletedTaskCheck,
+  taskCheckAdmin,
 };

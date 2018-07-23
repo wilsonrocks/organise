@@ -8,9 +8,9 @@ const {
   errorCheck,
   activistCheck,
   campaignCheck,
-  taskCheck,
+  taskCheckAdmin,
   credentialsCheck,
-  deletedTaskCheck,
+  taskCheck,
 } = require('./checks');
 
 const chai = require('chai');
@@ -120,7 +120,7 @@ describe('API', function () {
           activistCheck(members[0]);
           expect(members[0].membership).to.be.oneOf(['member', 'admin']);
           expect(tasks).to.be.an('array');
-          if (tasks.length > 0) taskCheck(tasks[0]);
+          if (tasks.length > 0) taskCheckAdmin(tasks[0]);
         });
       });
     });
@@ -192,7 +192,7 @@ describe('API', function () {
         .auth(...credentials)
         .expect(200)
         .then(({body:{deleted}}) => {
-          deletedTaskCheck(deleted);
+          taskCheck(deleted);
         });
       });
     });
@@ -292,7 +292,7 @@ describe('API', function () {
         .then(({body:{error}}) => errorCheck(error, 400));
       });
 
-      it('returns 400 if due_date is misformed', function () {
+      it('returns 400 if due_date is invalid', function () {
         return request
         .post('/api/v1/task')
         .auth(...credentials)
@@ -304,6 +304,21 @@ describe('API', function () {
         .expect(400)
         .then(({body:{error}}) => errorCheck(error, 400));
       });
+
+      it('returns 200 and the created task if all is okay', function () {
+        return request
+        .post('/api/v1/task')
+        .auth(...credentials)
+        .send({
+          campaign_id: 2,
+          instructions: 'punch a far right journalist',
+          due_date: futureDate,
+        })
+        .expect(200)
+        .then(({body: {created}}) => {
+          taskCheck(created);
+        });
+      })
 
     });
   })
