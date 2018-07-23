@@ -105,7 +105,7 @@ function createTask (req, res, next) {
     return res.status(400).send({error});
   }
 
-  if (validatedDate.isBefore(moment())) {
+  if (validatedDate.isBefore(moment(), 'day')) {
     const error = {
       status: 400,
       message: `due_date ${due_date} is in the past`
@@ -122,7 +122,7 @@ function createTask (req, res, next) {
   }
 
   adminForCampaign(email, campaign_id)
-  
+
   .then(({admin})=> {
     if (!admin) throw new Error('notAdmin');
     return createTaskRow(campaign_id, instructions, due_date)
@@ -130,7 +130,7 @@ function createTask (req, res, next) {
   .then(created => {
     return res.send({created})
   })
-  
+
   .catch(error => {
     if (error.message === 'notAdmin') {
       const error = {

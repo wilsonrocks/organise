@@ -23,7 +23,6 @@ export function getTasksForCampaign (email, password, id) {
   .get(`${BASE_URL}/campaign/${id}`)
   .auth(email, password)
   .then(response => response.body)
-  // .catch(error => null);
 }
 
 export function completeTask (email, password, id) {
@@ -38,4 +37,14 @@ export function deleteTask (email, password, id) {
   .delete(`${BASE_URL}/task/${id}`)
   .auth(email, password)
   .then(response => response.body);
+}
+
+export function createTask (email, password, campaign_id, instructions, due_date) {
+  return request
+  .post(`${BASE_URL}/task`)
+  .auth(email, password)
+  .send({campaign_id, instructions, due_date})
+  .then(response => {
+    return response.body;
+  });
 }

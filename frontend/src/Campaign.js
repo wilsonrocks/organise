@@ -90,6 +90,17 @@ class Campaign extends React.Component {
     else return tasks.filter(task => !task.done);
   }
 
+  addTask = ({created}) => {
+    const {members, tasks} = this.state;
+    const number_assigned = members.length;
+    this.setState({tasks:
+      [
+        ...tasks,
+        {...created, number_assigned, number_completed:0}
+      ]
+    });
+  }
+
   isAdmin = () => {
     return this.state.campaign.membership === 'admin';
   }
@@ -98,7 +109,7 @@ class Campaign extends React.Component {
 
     const {members, campaign:{name, logo, membership, id}} = this.state;
     const {email, password} = this.props;
-    
+
     document.title = name;
     return (
       <div>
@@ -109,6 +120,8 @@ class Campaign extends React.Component {
           campaignId={id}
           email={email}
           password={password}
+          addTaskCallback={this.addTask}
+
         />
 
 
