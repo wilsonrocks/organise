@@ -1,6 +1,6 @@
 *.pem
 node_modules
 *.log
-secrets.js
+.env
 
 nodemon.json
