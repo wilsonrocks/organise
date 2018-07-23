@@ -5,7 +5,7 @@ import CampaignList from './CampaignList';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {getActivistDetails} from './api';
-import TaskList from './TaskList';
+import Campaign from './Campaign';
 
 class LoggedIn extends Component {
 
@@ -58,7 +58,7 @@ class LoggedIn extends Component {
               render={({match, history}) => {
                 
                 return(
-                <TaskList
+                <Campaign
                   match={match}
                   email={email}
                   password={password}

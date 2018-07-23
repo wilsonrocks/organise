@@ -3,6 +3,7 @@ import React from 'react';
 import MemberTask from './MemberTask';
 import AdminTask from './AdminTask';
 import Membership from './Membership';
+import NewTask from './NewTask';
 
 import {
   getTasksForCampaign,
@@ -10,7 +11,7 @@ import {
   deleteTask,
 } from './api';
 
-class TaskList extends React.Component {
+class Campaign extends React.Component {
 
   state = {
     campaign: {},
@@ -76,7 +77,7 @@ class TaskList extends React.Component {
       const tasks = oldTasks.filter(
         task => task.id !== taskId
       );
-        
+
       this.setState({tasks});
     });
   }
@@ -95,12 +96,21 @@ class TaskList extends React.Component {
 
   render () {
 
-    const {members, campaign:{name, logo, membership}} = this.state;
+    const {members, campaign:{name, logo, membership, id}} = this.state;
+    const {email, password} = this.props;
+    
     document.title = name;
     return (
       <div>
         <h2>{name}</h2>
         <img src={logo} alt=""/>
+
+        <NewTask
+          campaignId={id}
+          email={email}
+          password={password}
+        />
+
 
         <Membership
           members={members}
@@ -112,10 +122,7 @@ class TaskList extends React.Component {
           .map((task) => {
             const {id} = task;
 
-            
-
             if (membership === 'member') return (
-
               <MemberTask
                 {...task}
                 key={id}
@@ -127,13 +134,10 @@ class TaskList extends React.Component {
               <AdminTask
                 {...task}
                 key={id}
-
-                doneCallback={() => this.completeTask(id
-                )}
+                doneCallback={() => this.completeTask(id)}
                 deleteCallback={() => this.deleteTask(id)}
               />
             );
-
           })
         }
 
@@ -142,4 +146,4 @@ class TaskList extends React.Component {
   }
 }
 
-export default TaskList;
+export default Campaign;
