@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import CampaignList from './CampaignList';
 
-import {Route} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {getActivistDetails} from './api';
 import TaskList from './TaskList';
@@ -52,20 +52,24 @@ class LoggedIn extends Component {
           <CampaignList campaigns={campaigns}/>
 
           {/* main bit */}
-          <Route
-            path="/campaign/:id"
-            render={({match, history}) => {
-              
-              return(
-              <TaskList
-                match={match}
-                email={email}
-                password={password}
-                history={history}
-              />);
+          <Switch>
+            <Route
+              path="/campaign/:id"
+              render={({match, history}) => {
+                
+                return(
+                <TaskList
+                  match={match}
+                  email={email}
+                  password={password}
+                  history={history}
+                  />);
+                }
               }
-            }
-          />
+            />
+            <Route exact path="/" render={()=>null}/>
+            <Redirect to="/"/>
+          </Switch>
 
 
         </div>
