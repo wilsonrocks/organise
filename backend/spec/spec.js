@@ -119,6 +119,7 @@ describe('API', function () {
           campaignCheck(campaign);
           expect(members).to.be.an('array');
           activistCheck(members[0]);
+          expect(members[0].membership).to.be.oneOf(['member', 'admin']);
           expect(tasks).to.be.an('array');
           if (tasks.length > 0) taskCheck(tasks[0]);
         });
