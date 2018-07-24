@@ -8,7 +8,7 @@ function NavBar ({name, logout}) {
       <div className="navbar-brand">
         <Logo/>
         <span className="navbar-item">{name}</span>
-        <span className = "navbar-item" onClick={logout}>Log Out</span>
+        <a className = "navbar-item" onClick={logout}>Log Out</a>
       </div>
     </nav>
   );

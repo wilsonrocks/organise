@@ -120,7 +120,7 @@ class Campaign extends React.Component {
 
         <div className="media">
           <div className="media-left">
-            <figure className="image is-64x64">
+            <figure className="image is-96x96">
               <img src={logo} alt=""/>
             </figure>
           </div>
