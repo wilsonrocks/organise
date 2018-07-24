@@ -1,7 +1,7 @@
 import React from 'react';
 import EmailValidator from 'email-validator';
 
-import logo from './images/logo.png';
+import Logo from './Logo';
 
 class Login extends React.Component {
 
@@ -47,9 +47,7 @@ class Login extends React.Component {
             </div>
 
             <div className="field-body">
-              <figure className="image is-128x128 has-text-centered">
-                <img src={logo} alt="organise"/>
-              </figure>
+              <Logo/>
             </div>
           </div>
 

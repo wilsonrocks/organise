@@ -8,25 +8,26 @@ function CampaignList ({campaigns}) {
   const memberCampaigns = campaigns.filter(campaign => campaign.membership === 'member');
 
   return (
-    <nav>
-      <ul>
-      <h2>Campaigns</h2>
-      <h3>Member</h3>
-
+    <nav className="menu">
+      <p className="menu-label">Member</p>
+      <ul className="menu-list">
       {memberCampaigns.map(
         ({id, name}) => (
           <li key={id}><Link to={`/campaign/${id}`}>{name}</Link></li>
         )
       )}
+      </ul>
 
-      <h3>Admin</h3>
+
+      <p className="menu-label">Admin</p>
+      <ul className="menu-list">
       {adminCampaigns.map(
         ({id, name}) => (
           <li key={id}><Link to={`/campaign/${id}`}>{name}</Link></li>
         )
       )}
-
       </ul>
+
     </nav>
   );
 }
