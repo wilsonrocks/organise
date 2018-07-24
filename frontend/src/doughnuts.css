@@ -1,0 +1,15 @@
+.ct-series-a .ct-slice-donut {
+  stroke: red;
+}
+
+.ct-series-b .ct-slice-donut {
+  stroke: lightgrey;
+}
+
+.ct-slice-donut {
+  stroke-linecap: round;
+}
+
+.ct-chart-donut {
+  height: 80px;
+}
