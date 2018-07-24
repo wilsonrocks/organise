@@ -7,11 +7,11 @@ function MemberTask ({instructions, due_date, doneCallback}) {
     
     <div className="media-left">
       <button className="button" onClick={doneCallback}>Done!</button>
+      <p >Due {moment(due_date).fromNow()} </p>
     </div>
     
     <div className="media-content">
       <p>{instructions}</p>
-      <p className="has-text-right">Due {moment(due_date).fromNow()} </p>
     </div>
 
   </div>

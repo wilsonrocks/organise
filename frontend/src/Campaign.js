@@ -4,6 +4,7 @@ import MemberTask from './MemberTask';
 import AdminTask from './AdminTask';
 import Membership from './Membership';
 import NewTask from './NewTask';
+import MemberTaskList from './MemberTaskList';
 
 import {
   getTasksForCampaign,
@@ -107,7 +108,7 @@ class Campaign extends React.Component {
 
   render () {
 
-    const {members, campaign:{name, logo, membership, id}} = this.state;
+    const {tasks, members, campaign:{name, logo, membership, id, description}} = this.state;
     const {email, password} = this.props;
 
     document.title = name;
@@ -120,13 +121,28 @@ class Campaign extends React.Component {
               <img src={logo} alt=""/>
             </figure>
           </div>
-          <p className="title media-content">{name}</p>
+          <div className="media-content">
+            <p className="title">{name}</p>
+            <p className="subtitle">{description}</p>
+          </div>
+
         </div>
 
 
         <Membership
           members={members}
         />
+
+        {membership ==='member' ?
+          <MemberTaskList
+            id={id}
+            email={email}
+            password={password}
+            membership={membership}
+            tasks={tasks}
+
+
+         />: null}
 
         <div className="heading">{membership === 'admin' ? 'Manage Tasks' : 'Outstanding Tasks'}</div>
 
@@ -135,41 +151,8 @@ class Campaign extends React.Component {
           email={email}
           password={password}
           addTaskCallback={this.addTask}
+          tasks={this.filteredTasks()}
         />
-
-
-        <div class="columns is-multiline">
-
-        {
-          this.filteredTasks()
-          .map((task) => {
-            const {id} = task;
-
-            if (membership === 'member') return (
-              <div class="column is-one-half">
-              <MemberTask
-                {...task}
-                key={id}
-                doneCallback={() => this.completeTask(id)}
-              />
-              </div>
-            );
-
-            else return (
-              <div class="column is-one-half">
-
-              <AdminTask
-                {...task}
-                key={id}
-                doneCallback={() => this.completeTask(id)}
-                deleteCallback={() => this.deleteTask(id)}
-              />
-              </div>
-            );
-          })
-        }
-
-        </div>
 
       </div>
     );
