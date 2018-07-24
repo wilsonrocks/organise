@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Membership from './Membership';
-import NewTask from './NewTask';
 import MemberTaskList from './MemberTaskList';
 import AdminTaskList from './AdminTaskList';
 
@@ -156,17 +155,10 @@ class Campaign extends React.Component {
             tasks={tasks}
             completeTask={this.completeTask}
             deleteTask={this.deleteTask}
-            createTask={this.createTask}
+            createTask={this.addTask}
          />
     }
 
-        {/* <NewTask
-          campaignId={id}
-          email={email}
-          password={password}
-          addTaskCallback={this.addTask}
-          tasks={this.filteredTasks()}
-        /> */}
 
       </div>
     );

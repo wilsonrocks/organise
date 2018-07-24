@@ -1,12 +1,22 @@
 import React from 'react';
 import AdminTask from './AdminTask';
+import NewTask from './NewTask';
 
-function MemberTaskList ({tasks, deleteTask, completeTask}) {
+function AdminTaskList ({tasks, deleteTask, completeTask, createTask, email, password, id}) {
 
 
   return (
     <div>
       <p className="title is-size-5"> Manage Tasks</p>
+
+      <NewTask
+        campaignId={id}
+        email={email}
+        password={password}
+        addTaskCallback={createTask}
+        tasks={tasks}
+      />
+
       <div className="columns is-multiline">
 
       {
@@ -15,10 +25,9 @@ function MemberTaskList ({tasks, deleteTask, completeTask}) {
           const {id} = task;
 
           return (
-            <div className="column is-one-half">
+            <div key={id} className="column is-one-half">
               <AdminTask
                 {...task}
-                key={id}
                 doneCallback={() => completeTask(id)}
                 deleteCallback={()=> deleteTask(id)}
               />
@@ -31,4 +40,4 @@ function MemberTaskList ({tasks, deleteTask, completeTask}) {
 );
 }
 
-export default MemberTaskList;
+export default AdminTaskList;
