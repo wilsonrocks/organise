@@ -6,7 +6,7 @@ function AdminTaskList ({tasks, deleteTask, completeTask, createTask, email, pas
 
 
   return (
-    <div>
+    <div className="container">
       <p className="title is-size-5"> Manage Tasks</p>
 
       <NewTask

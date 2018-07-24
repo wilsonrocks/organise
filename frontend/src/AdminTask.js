@@ -15,20 +15,22 @@ function AdminTask
             {...{number_assigned, number_completed}}
           />
 
-          <button
-            className="button"
-            onClick={doneCallback}
-            disabled={done}
-          >
-            Done!
-          </button>
+          <div className="buttons">
+            <button
+              className="button"
+              onClick={doneCallback}
+              disabled={done}
+            >
+              Done!
+            </button>
 
-          <button
-            className="button"
-            onClick={deleteCallback}
-          >
-            Delete
-          </button>
+            <button
+              className="button"
+              onClick={deleteCallback}
+            >
+              Delete
+            </button>
+          </div>
         </div>
 
         <div className="media-content">

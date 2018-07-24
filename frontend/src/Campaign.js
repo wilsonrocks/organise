@@ -116,25 +116,29 @@ class Campaign extends React.Component {
 
     document.title = name;
     return (
-      <div>
+      <div className="container">
+        <div className="container">
+          <div className="media">
+            <div className="media-left">
+              <figure className="image is-96x96">
+                <img src={logo} alt=""/>
+              </figure>
+            </div>
+            <div className="media-content">
+              <p className="title">{name}</p>
+              <p className="subtitle">{description}</p>
+            </div>
 
-        <div className="media">
-          <div className="media-left">
-            <figure className="image is-96x96">
-              <img src={logo} alt=""/>
-            </figure>
           </div>
-          <div className="media-content">
-            <p className="title">{name}</p>
-            <p className="subtitle">{description}</p>
-          </div>
+
+          <Membership
+            members={members}
+
+          />
 
         </div>
-
-
-        <Membership
-          members={members}
-        />
+        
+        
 
         {membership ==='member'
         ?
