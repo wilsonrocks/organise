@@ -7,7 +7,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {getActivistDetails} from './api';
 import Campaign from './Campaign';
 
-import Logo from './Logo';
+import NavBar from './NavBar';
 
 
 class LoggedIn extends Component {
@@ -47,47 +47,40 @@ class LoggedIn extends Component {
     const {logout, email, password} = this.props;
     return (
       <div>
-        <div className="columns">
+          <NavBar
+            name={activist.name}
+            logout={logout}
+          />
 
-          <div className="column is-narrow">
-            <Logo/>
-            <p>{activist.name}</p>
+        <section className="section">
+          <div className="columns">
+            
+            <div className="column is-narrow">
+              <CampaignList campaigns={campaigns}/>
+            </div>
 
-            <button onClick={logout}>Log Out</button>
+            <div className="column">
+              <Switch>
+                <Route
+                  path="/campaign/:id"
+                  render={({match, history}) => {
+
+                    return(
+                    <Campaign
+                      match={match}
+                      email={email}
+                      password={password}
+                      history={history}
+                      />);
+                    }
+                  }
+                />
+                <Route exact path="/" render={()=>null}/>
+                <Redirect to="/"/>
+              </Switch>
+            </div>
           </div>
-          <div className="column">
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column is-narrow">
-        
-          {/* sidebar */}
-          <CampaignList campaigns={campaigns}/>
-        </div>
-
-        <div className="columns">
-          {/* main bit */}
-          <Switch>
-            <Route
-              path="/campaign/:id"
-              render={({match, history}) => {
-                
-                return(
-                <Campaign
-                  match={match}
-                  email={email}
-                  password={password}
-                  history={history}
-                  />);
-                }
-              }
-            />
-            <Route exact path="/" render={()=>null}/>
-            <Redirect to="/"/>
-          </Switch>
-        </div>
-
-        </div>
+        </section>
       </div>
     );
   }
