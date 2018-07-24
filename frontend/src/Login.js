@@ -1,6 +1,8 @@
 import React from 'react';
 import EmailValidator from 'email-validator';
 
+import logo from './images/logo.png';
+
 class Login extends React.Component {
 
   state = {
@@ -9,7 +11,7 @@ class Login extends React.Component {
     validEmail: false,
   };
 
-  editEmail = ({target:{value:email}}) => {
+  editEmail = ({ target: { value: email } }) => {
 
     const validEmail = EmailValidator.validate(email);
 
@@ -20,64 +22,100 @@ class Login extends React.Component {
   };
 
   readyToSubmit = () => {
-    const {email, password, validEmail} = this.state
+    const { email, password, validEmail } = this.state
     return validEmail && password.length > 0 && email.length > 0;
   }
 
-  handleKeyPress = ({key}) => {
-    const {email, password} = this.state;
-    const {onSubmit} = this.props;
+  handleKeyPress = ({ key }) => {
+    const { email, password } = this.state;
+    const { onSubmit } = this.props;
     if (key === 'Enter' && this.readyToSubmit()) onSubmit(email, password);
   }
 
-  render () {
-    const {email, password, validEmail} = this.state;
-    const {error, onSubmit} = this.props;
+  render() {
+    const { email, password, validEmail } = this.state;
+    const { error, onSubmit } = this.props;
 
     return (
-      <form>
-        <fieldset>
-
-          <legend>Login </legend>
-
-          <label htmlFor="email">email</label>
-          <input
-            id="email"
-            type="text"
-            value={email}
-            onChange={this.editEmail}
-            onKeyPress={this.handleKeyPress}
-          />
-
-          { validEmail || (email.length === 0) ? null : <span>Not a valid Email</span>}
-
-          <br/>
-
-          <label htmlFor="password">password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onKeyPress={this.handleKeyPress}
-            onChange={({target:{value}}) => this.setState({password: value})}
-          />
-          <br/>
-
-          <button
-            type="button"
-            disabled={!this.readyToSubmit()}
-            onClick={
-              event => onSubmit(email, password)
-            }
-          >Log In</button>
-
-          {error ? <p>Problem with login!</p> : null}
+      <div className="container">
 
 
-        </fieldset>
+        <form>
 
-      </form>
+          <div className="field is-horizontal">
+            <div className="field-label">
+            </div>
 
+            <div className="field-body">
+              <figure className="image is-128x128 has-text-centered">
+                <img src={logo} alt="organise"/>
+              </figure>
+            </div>
+          </div>
+
+          <div className="field is-horizontal">
+
+            <div className="field-label">
+              <label className="label">email</label>
+            </div>
+
+            <div className="field-body">
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  value={email}
+                  onChange={this.editEmail}
+                  onKeyPress={this.handleKeyPress}
+                />
+              </div>
+
+              {validEmail || (email.length === 0) ? null : <p className="help is-danger">Not a valid Email</p>}
+
+            </div>
+          </div>
+
+          <div className="field is-horizontal">
+
+            <div className="field-label">
+              <label className="label">password</label>
+            </div>
+
+            <div className="field-body">
+              <div className="control">
+                <input
+                  className="input"
+                  type="password"
+                  value={password}
+                  onKeyPress={this.handleKeyPress}
+                  onChange={({ target: { value } }) => this.setState({ password: value })}
+                />
+              </div>
+            </div>
+
+          </div>
+
+          <div className="field is-horizontal">
+            <div className="field-label">
+            </div>
+
+            <div className="field-body">
+
+              <button
+                className="control"
+                type="button"
+                disabled={!this.readyToSubmit()}
+                onClick={() => onSubmit(email, password)}>
+                Log In
+              </button>
+
+              {error ? <p className="help is-danger">Problem with login!</p> : null}
+
+            </div>
+          </div>
+
+        </form>
+      </div>
     );
   }
 
