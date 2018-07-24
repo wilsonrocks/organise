@@ -1,11 +1,4 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
-
-div {
-  margin: 1px;
-  padding: 1px;
-  border: solid 1px;
+.task {
+    min-width: 300px;
+    max-width: 400px;
 }
