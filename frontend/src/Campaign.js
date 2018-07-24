@@ -1,10 +1,9 @@
 import React from 'react';
 
-import MemberTask from './MemberTask';
-import AdminTask from './AdminTask';
 import Membership from './Membership';
 import NewTask from './NewTask';
 import MemberTaskList from './MemberTaskList';
+import AdminTaskList from './AdminTaskList';
 
 import {
   getTasksForCampaign,
@@ -133,18 +132,25 @@ class Campaign extends React.Component {
           members={members}
         />
 
-        {membership ==='member' ?
+        {membership ==='member'
+        ?
           <MemberTaskList
             id={id}
             email={email}
             password={password}
             membership={membership}
             tasks={tasks}
-
-
-         />: null}
-
-        <div className="heading">{membership === 'admin' ? 'Manage Tasks' : 'Outstanding Tasks'}</div>
+            completeTask={this.completeTask}
+         />
+         : 
+         <AdminTaskList
+            id={id}
+            email={email}
+            password={password}
+            membership={membership}
+            tasks={tasks}
+         />
+    }
 
         <NewTask
           campaignId={id}

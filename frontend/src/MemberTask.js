@@ -3,6 +3,7 @@ import moment from 'moment';
 
 function MemberTask ({instructions, due_date, doneCallback}) {
   return (
+    <div className="box">
   <div className="media task">
     
     <div className="media-left">
@@ -14,6 +15,7 @@ function MemberTask ({instructions, due_date, doneCallback}) {
       <p>{instructions}</p>
     </div>
 
+  </div>
   </div>
   );
 }

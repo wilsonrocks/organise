@@ -1,29 +1,31 @@
 import React from 'react';
 import MemberTask from './MemberTask';
 
-function MemberTaskList ({tasks}) {
+function MemberTaskList ({tasks, completeTask}) {
 
 
   return (
-  <div class="columns is-multiline">
+    <div>
+      <p className="title is-size-5"> Incomplete Tasks</p>
+      <div className="columns is-multiline">
 
-  {
-    tasks
-    .map((task) => {
-      const {id} = task;
-
-      return (
-        <div className="column is-one-half">
-          <MemberTask
-            {...task}
-            key={id}
-            doneCallback={() => this.completeTask(id)}
-          />
-        </div>
-      );
-    })
-    }
-  </div>
+      {
+        tasks
+        .map((task) => {
+          const {id} = task;
+          return (
+            <div className="column is-one-half">
+              <MemberTask
+                {...task}
+                key={id}
+                doneCallback={() => completeTask(id)}
+              />
+            </div>
+          );
+        })
+        }
+      </div>
+    </div>
 );
 }
 
