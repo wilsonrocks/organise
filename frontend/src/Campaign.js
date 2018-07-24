@@ -149,6 +149,9 @@ class Campaign extends React.Component {
             password={password}
             membership={membership}
             tasks={tasks}
+            completeTask={this.completeTask}
+            deleteTask={this.deleteTask}
+            createTask={this.createTask}
          />
     }
 

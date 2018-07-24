@@ -9,7 +9,6 @@ class NewTask extends React.Component {
     editing: false,
     instructions: '',
     due_date: moment().format('YYYY-MM-DD'),
-    notReadyToSubmit: true
   }
 
   notReadyToSubmit = () => {
@@ -22,7 +21,14 @@ class NewTask extends React.Component {
     const {campaignId, email, password, addTaskCallback} = this.props;
     const {instructions, due_date} = this.state;
     createTask(email, password, campaignId, instructions, due_date)
-    .then(created => addTaskCallback(created));
+    .then(created => {
+      addTaskCallback(created)
+      this.setState({
+        editing: false,
+        instructions: '',
+        due_date: moment().format('YYYY-MM-DD'),
+      })
+    });
 
   }
 

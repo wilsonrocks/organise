@@ -14,10 +14,9 @@ function MemberTaskList ({tasks, completeTask}) {
         .map((task) => {
           const {id} = task;
           return (
-            <div className="column is-one-half">
+            <div key={id} className="column is-one-half">
               <MemberTask
                 {...task}
-                key={id}
                 doneCallback={() => completeTask(id)}
               />
             </div>

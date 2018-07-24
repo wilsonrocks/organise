@@ -1,7 +1,7 @@
 import React from 'react';
 import AdminTask from './AdminTask';
 
-function MemberTaskList ({tasks}) {
+function MemberTaskList ({tasks, createTask, deleteTask, completeTask}) {
 
 
   return (
@@ -19,7 +19,8 @@ function MemberTaskList ({tasks}) {
               <AdminTask
                 {...task}
                 key={id}
-                doneCallback={() => this.completeTask(id)}
+                doneCallback={() => completeTask(id)}
+                deleteCallback={()=> deleteTask(id)}
               />
             </div>
           );
