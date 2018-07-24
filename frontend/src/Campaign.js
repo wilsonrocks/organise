@@ -113,46 +113,63 @@ class Campaign extends React.Component {
     document.title = name;
     return (
       <div>
-        <h2>{name}</h2>
-        <img src={logo} alt=""/>
 
-        <NewTask
-          campaignId={id}
-          email={email}
-          password={password}
-          addTaskCallback={this.addTask}
-
-        />
+        <div className="media">
+          <div className="media-left">
+            <figure className="image is-64x64">
+              <img src={logo} alt=""/>
+            </figure>
+          </div>
+          <p className="title media-content">{name}</p>
+        </div>
 
 
         <Membership
           members={members}
         />
 
-        <h3>{membership === 'admin' ? 'Manage Tasks' : 'Outstanding Tasks'}</h3>
+        <div className="heading">{membership === 'admin' ? 'Manage Tasks' : 'Outstanding Tasks'}</div>
+
+        <NewTask
+          campaignId={id}
+          email={email}
+          password={password}
+          addTaskCallback={this.addTask}
+        />
+
+
+        <div class="columns is-multiline">
+
         {
           this.filteredTasks()
           .map((task) => {
             const {id} = task;
 
             if (membership === 'member') return (
+              <div class="column is-one-half">
               <MemberTask
                 {...task}
                 key={id}
                 doneCallback={() => this.completeTask(id)}
               />
+              </div>
             );
 
             else return (
+              <div class="column is-one-half">
+
               <AdminTask
                 {...task}
                 key={id}
                 doneCallback={() => this.completeTask(id)}
                 deleteCallback={() => this.deleteTask(id)}
               />
+              </div>
             );
           })
         }
+
+        </div>
 
       </div>
     );

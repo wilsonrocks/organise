@@ -5,16 +5,7 @@ function MemberList ({members, heading}) {
     members.length > 0
       ?(
         <div>
-          <h4> {heading} </h4>
-          <ul>
-            {
-              members.map(member => (
-                <li key={member.id}>
-                  {member.name}
-                </li>
-              ))
-            }
-          </ul>
+          <p className="is-size-7">{heading}: {members.map(member => member.name).join(', ')}</p>
         </div>
         )
       : null
