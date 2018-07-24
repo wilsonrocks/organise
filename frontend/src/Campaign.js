@@ -19,6 +19,11 @@ class Campaign extends React.Component {
     members: [],
   }
 
+  incompleteTasks () {
+    const {tasks} = this.state;
+    return tasks.filter(task => !task.done)
+  }
+
   componentDidMount () {
     const {email, password, history} = this.props;
     const {id} = this.props.match.params;
@@ -139,7 +144,7 @@ class Campaign extends React.Component {
             email={email}
             password={password}
             membership={membership}
-            tasks={tasks}
+            tasks={this.incompleteTasks()}
             completeTask={this.completeTask}
          />
          : 
@@ -155,13 +160,13 @@ class Campaign extends React.Component {
          />
     }
 
-        <NewTask
+        {/* <NewTask
           campaignId={id}
           email={email}
           password={password}
           addTaskCallback={this.addTask}
           tasks={this.filteredTasks()}
-        />
+        /> */}
 
       </div>
     );

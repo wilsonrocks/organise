@@ -29,7 +29,8 @@ export function completeTask (email, password, id) {
   return request
   .patch(`${BASE_URL}/task/${id}`)
   .auth(email, password)
-  .then(response => response.body);
+  .then(response => response.body)
+  .catch(error=>console.dir(error.response.body));
 }
 
 export function deleteTask (email, password, id) {

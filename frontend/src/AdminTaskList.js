@@ -1,7 +1,7 @@
 import React from 'react';
 import AdminTask from './AdminTask';
 
-function MemberTaskList ({tasks, createTask, deleteTask, completeTask}) {
+function MemberTaskList ({tasks, deleteTask, completeTask}) {
 
 
   return (
