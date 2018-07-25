@@ -25,7 +25,7 @@ function AdminTaskList ({tasks, deleteTask, completeTask, createTask, email, pas
           const {id} = task;
 
           return (
-            <div key={id} className="column is-one-half">
+            <div key={id} className="column is-narrow">
               <AdminTask
                 {...task}
                 doneCallback={() => completeTask(id)}

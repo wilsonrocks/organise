@@ -1,6 +1,11 @@
 
 .task {
-    min-width: 200px;
+    width: 400px;
+}
+
+.task-text {
+    height: 200px;
+    overflow-y: auto;
 }
 
 .pie {

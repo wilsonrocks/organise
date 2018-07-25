@@ -7,15 +7,13 @@ function AdminTask
 ({instructions, due_date, number_assigned, number_completed, done,
   doneCallback, deleteCallback}) {
   return (
-    <div className="box">
-      <div className="media task">
+    <div className="box task">
+      <div className="media">
         <div className="media-left">
 
           <Doughnut
             {...{number_assigned, number_completed}}
           />
-
-          <div className="buttons">
             <button
               className="button"
               onClick={doneCallback}
@@ -25,15 +23,14 @@ function AdminTask
             </button>
 
             <button
-              className="button"
+              className="button is-block"
               onClick={deleteCallback}
             >
               Delete
             </button>
-          </div>
         </div>
 
-        <div className="media-content">
+        <div className="media-content task-text" >
 
           <p>{instructions}</p>
           <p className="has-text-right">Due {moment(due_date).fromNow()} </p>

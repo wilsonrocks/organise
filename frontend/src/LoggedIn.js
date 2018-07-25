@@ -55,7 +55,7 @@ class LoggedIn extends Component {
         <section className="section">
           <div className="columns">
             
-            <div className="column is-narrow">
+            <div className="column is-narrow" style={{width:'150px'}}>
               <CampaignList campaigns={campaigns}/>
             </div>
 
