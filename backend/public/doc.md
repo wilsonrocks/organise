@@ -24,18 +24,18 @@ Returns an object of the form
 
     {
       "activist": {
-        "id": number,
-        "name": string,
-        "email": string,
-        "last_login": timestamp,
-        "joined": date
-      }
+        "id": 1,
+        "email": "tester@test.com",
+        "name": "Testy McTestface",
+        "joined": "2017-04-21T23:00:00.000Z"
+      },
       "campaigns": [
         {
-          "id": number,
-          "name": string,
-          "description": string,
-          "logo": url
+          "name": "Try and stop Brexit",
+          "logo": "https://s3.amazonaws.com/uifaces/faces/twitter/ky/128.jpg",
+          "description": "We need to tweet a lot, people",
+          "id": 1,
+          "membership": "member"
         }, ...
       ]
     }
@@ -73,7 +73,6 @@ Returns the details of the campaign with the given id, along with a list of task
             "email": "tester@test.com",
             "name": "Testy McTestface",
             "joined": "2016-08-17T23:00:00.000Z",
-            "last_login": "2018-07-24T09:59:17.113Z",
             "membership": "member"
         }, ...
       ]
@@ -86,7 +85,7 @@ Returns the details of the campaign with the given id, along with a list of task
 
 Creates a new task.
 
-As well as the authentication, you need to supply a JSON object in the body of the request of the form:
+As we`l`l as the authentication, you need to supply a JSON object in the body of the request of the form:
 
     {
       campaign_id: 2,

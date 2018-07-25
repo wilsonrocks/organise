@@ -23,18 +23,18 @@
 <p>Returns an object of the form</p>
 <pre><code>{
   &quot;activist&quot;: {
-    &quot;id&quot;: number,
-    &quot;name&quot;: string,
-    &quot;email&quot;: string,
-    &quot;last_login&quot;: timestamp,
-    &quot;joined&quot;: date
-  }
+    &quot;id&quot;: 1,
+    &quot;email&quot;: &quot;tester@test.com&quot;,
+    &quot;name&quot;: &quot;Testy McTestface&quot;,
+    &quot;joined&quot;: &quot;2017-04-21T23:00:00.000Z&quot;
+  },
   &quot;campaigns&quot;: [
     {
-      &quot;id&quot;: number,
-      &quot;name&quot;: string,
-      &quot;description&quot;: string,
-      &quot;logo&quot;: url
+      &quot;name&quot;: &quot;Try and stop Brexit&quot;,
+      &quot;logo&quot;: &quot;https://s3.amazonaws.com/uifaces/faces/twitter/ky/128.jpg&quot;,
+      &quot;description&quot;: &quot;We need to tweet a lot, people&quot;,
+      &quot;id&quot;: 1,
+      &quot;membership&quot;: &quot;member&quot;
     }, ...
   ]
 }</code></pre>
@@ -68,7 +68,6 @@
         &quot;email&quot;: &quot;tester@test.com&quot;,
         &quot;name&quot;: &quot;Testy McTestface&quot;,
         &quot;joined&quot;: &quot;2016-08-17T23:00:00.000Z&quot;,
-        &quot;last_login&quot;: &quot;2018-07-24T09:59:17.113Z&quot;,
         &quot;membership&quot;: &quot;member&quot;
     }, ...
   ]
@@ -76,7 +75,7 @@
 <h3 id="apiv1task">/api/v1/task</h3>
 <h4 id="post">POST</h4>
 <p>Creates a new task.</p>
-<p>As well as the authentication, you need to supply a JSON object in the body of the request of the form:</p>
+<p>As we<code>l</code>l as the authentication, you need to supply a JSON object in the body of the request of the form:</p>
 <pre><code>{
   campaign_id: 2,
   instructions: &#39;what to do&#39;,
