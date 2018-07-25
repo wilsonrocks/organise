@@ -43,11 +43,10 @@ function errorCheck (error, code) {
   expect(error.message).to.be.a('string')
 }
 
-function activistCheck ({id, email, name, last_login, joined}) {
+function activistCheck ({id, email, name, joined}) {
   expect(id).to.match(integerRegex);
   expect(email).to.be.a('string');
   expect(name).to.be.a('string');
-  inPast(last_login);
   inPast(joined);
 }
 

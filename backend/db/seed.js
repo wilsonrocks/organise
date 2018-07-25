@@ -20,7 +20,7 @@ const deleteAll = () => db.none(`
 
 const seedActivists = (activist) => {
   const activistColumns = new ColumnSet(
-    ['id', 'email', 'name', 'last_login', 'joined'],
+    ['id', 'email', 'name', 'joined'],
     {table: 'activist'}
   );
   const seedActivists = insert(activist, activistColumns);

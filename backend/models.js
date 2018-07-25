@@ -112,7 +112,7 @@ const deleteTaskFromId = (taskId) => db.one(
 
 const getMembersOfCampaign = (campaignId) => db.many(
   `
-  select activist.id, email, name, joined, last_login, membership
+  select activist.id, email, name, joined, membership
   from activist join membership on activist.id = membership.activist_id
   where membership.campaign_id = $1;`, campaignId);
 

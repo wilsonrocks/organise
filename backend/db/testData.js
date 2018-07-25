@@ -15,7 +15,6 @@ const activist = [
     id: 1,
     email: 'tester@test.com',
     name: 'Testy McTestface',
-    last_login: faker.date.recent(),
     joined: faker.date.past(2)
   },
 
@@ -23,7 +22,6 @@ const activist = [
     id: 2,
     email: 'second@test.com',
     name: 'Tests Galore',
-    last_login: faker.date.recent(),
     joined: faker.date.past(2)
   },
 
@@ -31,7 +29,6 @@ const activist = [
     id: 3,
     email: 'idris@elba.org',
     name: 'Idris Elba',
-    last_login: faker.date.recent(),
     joined: faker.date.past(2)
   },
 
@@ -39,7 +36,6 @@ const activist = [
     id: 4,
     email: 'dennis.skinner@parliament.uk',
     name: 'Dennis Skinner',
-    last_login: faker.date.recent(),
     joined: faker.date.past(2)
   },
 
@@ -47,7 +43,6 @@ const activist = [
     id: 5,
     email: 'margaret@oryx.crake',
     name: 'Margaret Atwood',
-    last_login: faker.date.recent(),
     joined: faker.date.past(2)
   },
 ];

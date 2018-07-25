@@ -16,7 +16,6 @@ function activists (n) {
         id: 1,
         email: 'tester@test.com',
         name: 'Testy McTestface',
-        last_login: faker.date.recent(),
         joined: faker.date.past(2)
       });
 
@@ -26,7 +25,6 @@ function activists (n) {
           id,
           email: faker.internet.email(),
           name: faker.name.firstName() + ' ' + faker.name.lastName(),
-          last_login: faker.date.recent(),
           joined: faker.date.past(1),
         });
         id++;

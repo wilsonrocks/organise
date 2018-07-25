@@ -4,7 +4,6 @@ CREATE TABLE activist (
     id SERIAL PRIMARY KEY,
     email TEXT,
     name TEXT,
-    last_login TIMESTAMP,
     joined DATE DEFAULT current_date
 );
 
