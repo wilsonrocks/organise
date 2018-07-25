@@ -1,56 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <style>
-    body {
-      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
-  </style>
-  <title>Organise API v1</title>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Organise V1 API – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
-    <h1>ORGANISE API v1</h1>
+<h1 id="organise-api-v1">ORGANISE API v1</h1>
+<h2 id="helping-people-campaign-with-fewer-grumpy-emails">Helping people campaign with fewer grumpy emails</h2>
+<p>All endpoints use HTTP basic authentication. The username is an email. Password is not currently checked. However, you will only be able to access data that the submitted username should be able to access.</p>
+<h3 id="apiv1authenticate">/api/v1/authenticate</h3>
+<h4 id="get">GET</h4>
+<p>Checks the supplied credentials. Returns 401 if unauthorised or a 200 with no information if everything is okay.</p>
+<h3 id="apiv1activist">/api/v1/activist</h3>
+<h4 id="get-1">GET</h4>
+<p>Returns the details of the activist with the email address given in the authentication, along with a list of all the campaigns they are involved in.</p>
+<p>Returns an object of the form</p>
+<pre><code>{
+  &quot;activist&quot;: {
+    &quot;id&quot;: number,
+    &quot;name&quot;: string,
+    &quot;email&quot;: string,
+    &quot;last_login&quot;: timestamp,
+    &quot;joined&quot;: date
+  }
+  &quot;campaigns&quot;: [
+    {
+      &quot;id&quot;: number,
+      &quot;name&quot;: string,
+      &quot;description&quot;: string,
+      &quot;logo&quot;: url
+    }, ...
+  ]
+}</code></pre>
+<h3 id="apiv1campaignid">/api/v1/campaign/:id</h3>
+<h4 id="get-2">GET</h4>
+<p>Returns the details of the campaign with the given id, along with a list of tasks that are part of that campaign</p>
+<pre><code>{
+  &quot;campaign&quot;: {
+      &quot;name&quot;: &quot;Try and stop Brexit&quot;,
+      &quot;logo&quot;: &quot;https://s3.amazonaws.com/uifaces/faces/twitter/dahparra/128.jpg&quot;,
+      &quot;description&quot;: &quot;We need to tweet a lot, people&quot;,
+      &quot;id&quot;: 1,
+      &quot;membership&quot;: &quot;member&quot;
+  },
 
-    <h2>Helping people campaign with fewer grumpy emails</h2>
+  &quot;tasks&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;campaign_id&quot;: 1,
+      &quot;instructions&quot;: &quot;Enim rerum quos in eligendi. Error velit quidem dolore et.&quot;,
+      &quot;due_date&quot;: &quot;2019-04-23T23:00:00.000Z&quot;,
+      &quot;number_assigned&quot;: 3,
+      &quot;number_completed&quot;: 0,
+      &quot;done&quot;: false
+    }, ...
+  ],
 
-    All endpoints use HTTP basic authentication.
-    The username is an email.
-    Password is not currently checked.
-    However, you will only be able to access data that the submitted username should be able to access.
-
-    <h3>/api/v1/authenticate</h3>
-    <h4>GET</h4>
-    Checks the supplied credentials.
-    Returns 401 if unauthorised or a 200 with no information if everything is okay.
-
-    <h3>/api/v1/activist</h3>
-
-    <h4>GET</h4>
-
-    Returns an object of the form
-
-    <code><pre>
-      {
-        "activist": {
-          "id": number,
-          "name": string,
-          "email": string,
-          "last_login": timestamp,
-          "joined": date
-        }
-        "campaigns": [
-          {
-            "id": number,
-            "name": string,
-            "description": string,
-            "logo": url
-          }, ...
-        ]
-      }
-    </pre></code>
-
+  &quot;members&quot;: [
+    {
+        &quot;id&quot;: 1,
+        &quot;email&quot;: &quot;tester@test.com&quot;,
+        &quot;name&quot;: &quot;Testy McTestface&quot;,
+        &quot;joined&quot;: &quot;2016-08-17T23:00:00.000Z&quot;,
+        &quot;last_login&quot;: &quot;2018-07-24T09:59:17.113Z&quot;,
+        &quot;membership&quot;: &quot;member&quot;
+    }, ...
+  ]
+}</code></pre>
+<h3 id="apiv1task">/api/v1/task</h3>
+<h4 id="post">POST</h4>
+<p>Creates a new task.</p>
+<p>As well as the authentication, you need to supply a JSON object in the body of the request of the form:</p>
+<pre><code>{
+  campaign_id: 2,
+  instructions: &#39;what to do&#39;,
+  due_date: &lt;a date in any form that Moment.js can understand&gt;,
+}</code></pre>
+<p>Creation will fail if:</p>
+<ul>
+<li>Any fields are missing</li>
+<li>The campaign does not exist.</li>
+<li>The authenticated user does not have admin status for the specified campaign.</li>
+<li>due_date must is not in the future.</li>
+<li>due_date is not a format that <a href="https://momentjs.com/">Moment.js</a> can understand.</li>
+<li>Instructions is an empty string</li>
+</ul>
+<h3 id="apiv1taskid">/api/v1/task/:id</h3>
+<h4 id="patch">PATCH</h4>
+<p>Marks the task as done. The authenticated user must be a member or an admin for the task's campaign.</p>
+<p>Returns a JSON object of the form:</p>
+<pre><code>{
+  &quot;completed&quot;: {
+      &quot;id&quot;: 5766,
+      &quot;task_id&quot;: 1,
+      &quot;activist_id&quot;: 1
+  }
+}</code></pre>
+<p>A 400 response will be returned if the task is already marked as done.</p>
+<h4 id="delete">DELETE</h4>
+<p>Deletes the specified task. The authenticated user must be an admin for the task's campaign.</p>
+<p>Returns a JSON object of the form:</p>
+<pre><code>{
+  &quot;deleted&quot;: {
+      &quot;id&quot;: 2,
+      &quot;campaign_id&quot;: 2,
+      &quot;instructions&quot;: &quot;Eaque omnis nobis molestias aut commodi animi corporis rem consequatur. Quasi quis numquam.&quot;,
+      &quot;due_date&quot;: &quot;2018-12-24T00:00:00.000Z&quot;
+  }
+}</code></pre>
 </body>
 </html>
