@@ -41,8 +41,8 @@ function campaigns (n) {
   function* campaign (n) {
     yield ({
       id: 1,
-      name: 'Shut down the tories',
-      description: 'We won\'t have a fair society till they are dealt with. Guillotine!',
+      name: 'Try and stop Brexit',
+      description: 'We need to tweet a lot, people',
       logo: faker.image.avatar(),
     });
 

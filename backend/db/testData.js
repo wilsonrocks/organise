@@ -55,8 +55,8 @@ const activist = [
 const campaign = [
   {
     id: 1,
-    name: 'Shut down the tories',
-    description: 'We won\'t have a fair society till they are dealt with. Guillotine!',
+    name: 'Stop Brexit!',
+    description: 'We need to write BLOGS, people',
     logo: faker.image.avatar(),
   },
 
