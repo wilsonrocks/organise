@@ -67,8 +67,8 @@ class Login extends React.Component {
                   onKeyPress={this.handleKeyPress}
                 />
               </div>
+              {validEmail || (email.length === 0) ? null : <p className="help help-text is-danger">Not a valid Email</p>}
 
-              {validEmail || (email.length === 0) ? null : <p className="help is-danger">Not a valid Email</p>}
 
             </div>
           </div>
@@ -107,7 +107,7 @@ class Login extends React.Component {
                 Log In
               </button>
 
-              {error ? <p className="help is-danger">Problem with login!</p> : null}
+              {error ? <p className="help help-text is-danger">Problem with login!</p> : null}
 
             </div>
           </div>
