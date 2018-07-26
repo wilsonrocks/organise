@@ -1,3 +1,4 @@
+require('dotenv').config();
 require('./env.js'); // sets NODE_ENV correctly
 
 const app = require('express')();
