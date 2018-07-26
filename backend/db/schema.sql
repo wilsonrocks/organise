@@ -2,7 +2,7 @@ CREATE TYPE membership_type AS ENUM ('admin', 'member');
 
 CREATE TABLE activist (
     id SERIAL PRIMARY KEY,
-    email TEXT,
+    email TEXT UNIQUE,
     name TEXT,
     joined DATE DEFAULT current_date
 );

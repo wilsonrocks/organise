@@ -95,6 +95,7 @@ async function seed ({
   }
 
   catch(error) {
+    console.error(error)
     throw error;
   }
 }
