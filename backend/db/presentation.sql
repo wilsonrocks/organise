@@ -5,12 +5,11 @@ DELETE FROM activist;
 INSERT INTO activist (id, email, name)
 VALUES
 (1, 'tester@test.com', 'Testy McTestFace'),
-(2, 'jeremy.corbyn@parliament.uk', 'Jeremy Corbyn'),
+(2, 'kate@moss.com', 'Kate Moss'),
 (3, 'ice@t.com', 'Ice-T'),
 (4, 'pinkie@pie.co.uk', 'Pinkie Pie'),
 (5, 'paris.lees@hotmail.co.uk', 'Paris Lees'),
-(6, 'angela.rayner@parliament.uk', 'Angela Rayner'),
-(7, 'billy@bragg.com', 'Billy Bragg'),
+(6, 'khloe@kardashian.com', 'Khloe Kardashian'),
 (8, 'nigella@lawson.food', 'Nigella Lawson'),
 (9, 'britney@spears.com', 'Britney Spears'),
 (10, 'trent@nin.com', 'Trent Reznor'),
@@ -22,12 +21,10 @@ VALUES
 DELETE FROM campaign;
 INSERT INTO campaign (id, name, description, logo)
 VALUES
-(1, 'Stop Brexit', 'We need to tweet a LOT more, folks',
-'http://organise-presentation-images.s3-website.eu-west-2.amazonaws.com/eu.fist.png'),
 (2, 'Calderdale Against School Cuts',
 'Schools are really struggling. Loads of redundancies. Cannot afford books. Total Disgrace. We want to raise awareness and put pressure on Government to stop this.',
 'http://organise-presentation-images.s3-website.eu-west-2.amazonaws.com/casc.png'),
-(3,''
+(3,
 'Freeciv for the Northcoders Community',
 'We could have a huge game played at glacial pace. Bagsy being Venice!',
 'http://organise-presentation-images.s3-website.eu-west-2.amazonaws.com/freeciv.png'),
@@ -56,7 +53,6 @@ VALUES
 (11, 2, 4, 'member'),
 
 
-(12, 1, 1, 'admin'),
 (13, 1, 2, 'admin'),
 (14, 1, 3, 'admin'),
 (15, 1, 4, 'admin'),
@@ -71,16 +67,24 @@ INSERT INTO task (id, campaign_id, instructions, due_date)
 VALUES
 (1, 4, 'Make some special React jam', '2018-08-01'),
 (2, 4, 'Lobby your MP about tech-jam', '2018-08-25'),
-(3, 4, 'Write a small novel about the co-founder of a jam startup.', '2018-12-25')
+(3, 4, 'Write a small novel about the co-founder of a jam startup.', '2018-12-25'),
+
+(4, 2, 'Give out leaflets in Brighouse', '2018-12-25'),
+(5, 2, 'Get family to sign petition', '2018-12-25'),
+(6, 3, 'ask the tutors on slack', '2018-12-25'),
+(7, 5, 'Write to the secretary of state', '2018-12-25'),
+(8, 6, 'Play Iron Maiden records loudly outside Buckingham Palace', '2018-12-25')
 ;
 
 DELETE FROM task_completion;
 INSERT INTO task_completion (activist_id, task_id)
 VALUES
-(5,1),(6,1),(8,1),(9,1),(2,1),
-
-(6,3)
-
-
+(2,2),
+(3,2),
+(8,2),
+(9,2),
+(1,1),
+(3,1),
+(8,1)
 
 ;
