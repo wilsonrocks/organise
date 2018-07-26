@@ -95,7 +95,7 @@ class NewTask extends React.Component {
           <div className="field is-horizontal">
           <div className="field-label"/>
           <div className="field-body">
-          <div className="buttons">
+          <div className="buttons field">
             <button
               type="button"
               className="button"
