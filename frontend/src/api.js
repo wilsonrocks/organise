@@ -1,6 +1,6 @@
 import request from 'superagent';
 
-const BASE_URL = 'http://localhost:3000/api/v1';
+const BASE_URL = 'http://ec2-35-176-189-96.eu-west-2.compute.amazonaws.com/api/v1';
 
 export function authenticate (email, password) {
   return request
